@@ -1,0 +1,14 @@
+{
+  // Allow long lines (skills have tables and URLs)
+  "MD013": false,
+  // Allow duplicate headings (EN/PT files reuse same structure)
+  "MD024": false,
+  // Allow inline HTML (badges use img tags)
+  "MD033": false,
+  // Allow bare URLs
+  "MD034": false,
+  // Allow multiple blank lines
+  "MD012": false,
+  // Allow trailing punctuation in headings
+  "MD026": false
+}

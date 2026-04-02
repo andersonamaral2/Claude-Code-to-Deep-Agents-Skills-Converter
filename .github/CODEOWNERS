@@ -1,0 +1,12 @@
+# Default owner for everything
+* @andersonamaral2
+
+# Skill definitions
+SKILL.en.md @andersonamaral2
+SKILL.pt.md @andersonamaral2
+
+# Installer
+install.sh @andersonamaral2
+
+# CI/CD
+.github/workflows/ @andersonamaral2

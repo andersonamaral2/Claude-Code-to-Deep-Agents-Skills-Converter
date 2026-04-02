@@ -1,0 +1,114 @@
+name: Lint & Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ShellCheck on install.sh
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: .
+          additional_files: install.sh
+
+  markdown-lint:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint Markdown files
+        uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: |
+            README.md
+            README.pt.md
+            CONTRIBUTING.md
+            CHANGELOG.md
+            SECURITY.md
+            CODE_OF_CONDUCT.md
+
+  yaml-frontmatter:
+    name: Validate YAML Frontmatter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check SKILL files have valid frontmatter
+        run: |
+          ERRORS=0
+          for file in SKILL.en.md SKILL.pt.md; do
+            echo "Checking $file..."
+            if ! head -1 "$file" | grep -q '^---'; then
+              echo "ERROR: $file missing YAML frontmatter"
+              ERRORS=$((ERRORS + 1))
+            fi
+            # Extract frontmatter and validate required fields
+            FRONTMATTER=$(sed -n '1,/^---$/p' "$file" | tail -n +2 | head -n -1)
+            for field in name description; do
+              if ! echo "$FRONTMATTER" | grep -q "^${field}:"; then
+                echo "ERROR: $file missing required field '$field'"
+                ERRORS=$((ERRORS + 1))
+              fi
+            done
+            echo "  OK"
+          done
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "FAILED: $ERRORS errors found"
+            exit 1
+          fi
+          echo "All frontmatter valid"
+
+  validate-examples:
+    name: Validate Converted Examples
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check converted examples have T1-T8 sections
+        run: |
+          ERRORS=0
+          for file in examples/deep-agents-output/SKILL.md examples/deep-agents-output-2/SKILL.md; do
+            echo "Checking $file..."
+            for section in "Execution Context" "Execution Plan" "Prerequisites" "Usage with Deep Agents" "Troubleshooting"; do
+              if ! grep -q "$section" "$file"; then
+                echo "  MISSING: '$section' in $file"
+                ERRORS=$((ERRORS + 1))
+              fi
+            done
+            # Check frontmatter
+            if ! head -1 "$file" | grep -q '^---'; then
+              echo "  MISSING: YAML frontmatter in $file"
+              ERRORS=$((ERRORS + 1))
+            fi
+            # Check no stale references
+            for old_ref in "CLAUDE.md" ".claude/"; do
+              if grep -q "$old_ref" "$file"; then
+                echo "  WARNING: Unconverted reference '$old_ref' in $file"
+                ERRORS=$((ERRORS + 1))
+              fi
+            done
+            echo "  OK"
+          done
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "FAILED: $ERRORS errors found"
+            exit 1
+          fi
+          echo "All examples valid"
+
+  installer-syntax:
+    name: Validate Installer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check install.sh syntax
+        run: bash -n install.sh
+      - name: Check install.sh --help exits cleanly
+        run: bash install.sh --help

@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+
+      - name: Extract changelog for this version
+        id: changelog
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          # Strip 'v' prefix to match CHANGELOG format
+          SEMVER="${VERSION#v}"
+          # Extract the section for this version from CHANGELOG.md
+          NOTES=$(awk "/^## \[${SEMVER}\]/{found=1; next} /^## \[/{if(found) exit} found{print}" CHANGELOG.md)
+          # Write to file for the release body
+          echo "$NOTES" > release_notes.md
+          echo "Extracted changelog for $VERSION"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ steps.version.outputs.VERSION }}
+          body_path: release_notes.md
+          draft: false
+          prerelease: false
+          generate_release_notes: false

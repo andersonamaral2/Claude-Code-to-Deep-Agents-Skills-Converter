@@ -1,5 +1,11 @@
 # Claude Code ↔ Deep Agents Skill Converter
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Lint & Validate](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/actions/workflows/lint.yml/badge.svg)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/actions/workflows/lint.yml)
+[![GitHub release](https://img.shields.io/github/v/release/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/releases)
+[![Last commit](https://img.shields.io/github/last-commit/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/commits/main)
+[![Deep Agents CLI](https://img.shields.io/badge/Deep%20Agents%20CLI-v0.0.34%2B-blue)](https://docs.langchain.com/oss/python/deepagents/cli)
+
 Convert **any** SKILL.md between Claude Code and Deep Agents CLI formats — preserving 100% of the domain knowledge while adapting the execution interface. Now with bidirectional conversion, dry-run preview, and batch processing.
 
 > **Portugues?** [Leia em Portugues](/README.pt.md)
