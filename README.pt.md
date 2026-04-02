@@ -2,6 +2,8 @@
 
 Converte **qualquer** SKILL.md entre os formatos Claude Code e Deep Agents CLI — preservando 100% do conhecimento de domínio e adaptando a interface de execução. Agora com conversão bidirecional, preview dry-run e processamento em lote.
 
+> **English?** [Read in English](/README.md)
+
 ---
 
 ## Por que isso existe?
