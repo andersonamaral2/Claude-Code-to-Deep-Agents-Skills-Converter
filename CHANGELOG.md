@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.0] - 2026-04-02
 
 ### Added
+
 - `install.sh` — self-contained installer that works in two modes:
   - **Standalone**: `curl -fsSL .../install.sh | bash` (no git clone needed)
   - **Local**: `./install.sh` from cloned repo
@@ -20,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Complete before/after conversion examples with full T1-T8 transformations (FastAPI Todo App, Docker Monitoring Stack)
 
 ### Changed
+
 - README.md, README.en.md, README.pt.md rewritten with 4 installation methods (A: curl one-liner, B: clone+install, C: Deep Agents self-install, D: manual)
 - Examples in `examples/deep-agents-output/` and `examples/deep-agents-output-2/` rewritten to demonstrate all 8 mandatory transformations
 - Fixed CLAUDE.md → AGENTS.md semantic replacement in example 2
@@ -27,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0] - 2026-04-02
 
 ### Added
+
 - Bidirectional conversion: Deep Agents → Claude Code (reverse conversion)
 - Dry-run / preview mode: see diff before saving
 - Batch conversion: convert multiple skills at once via sub-agents
@@ -45,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Compatibility section in README with Deep Agents CLI version info
 
 ### Changed
+
 - T1 (Execution Context) now emphasizes listing only used tools
 - T3 (Prerequisites) now includes environment variable checks
 - T8 (Troubleshooting) now includes env var and context window sections
@@ -56,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2026-04-02
 
 ### Added
+
 - Bilingual skill converter (English & Portuguese)
 - 8 mandatory transformations (T1-T8) for Claude Code to Deep Agents conversion
 - Automatic semantic replacements for tools, paths, and conventions
