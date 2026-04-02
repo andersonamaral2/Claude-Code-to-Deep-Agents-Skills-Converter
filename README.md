@@ -20,23 +20,32 @@
 - `README.pt.md` - Documentacao completa em Portugues
 - `SKILL.en.md` - Skill definition for Deep Agents CLI (English)
 - `SKILL.pt.md` - Definicao da skill para Deep Agents CLI (Portugues)
+- `install.sh` - One-command installer for Deep Agents CLI
 - `CHANGELOG.md` - Version history
 - `CONTRIBUTING.md` - Contribution guidelines
 - `LICENSE` - MIT License
 
 ---
 
-## Quick Start
+## Quick Start / Inicio Rapido
+
+### One-liner install
+```bash
+git clone https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter.git && cd Claude-Code-to-Deep-Agents-Skills-Converter && ./install.sh
+```
 
 ### English
-1. Install the skill: Copy `SKILL.en.md` to `~/.deepagents/agent/skills/skill-converter/SKILL.md`
-2. Run Deep Agents CLI: `deepagents -y`
+1. Clone and install: `git clone ... && ./install.sh`
+2. Run: `deepagents -y`
 3. Say: "Convert this Claude Code skill to Deep Agents"
 
 ### Portugues
-1. Instale a skill: Copie `SKILL.pt.md` para `~/.deepagents/agent/skills/skill-converter/SKILL.md`
-2. Execute o Deep Agents CLI: `deepagents -y`
+1. Clone e instale: `git clone ... && ./install.sh`
+2. Execute: `deepagents -y`
 3. Diga: "Converta essa skill do Claude Code para Deep Agents"
+
+> The installer auto-detects your locale (EN/PT) and registers the skill in Deep Agents CLI.
+> O instalador detecta automaticamente seu idioma (EN/PT) e registra a skill no Deep Agents CLI.
 
 ---
 

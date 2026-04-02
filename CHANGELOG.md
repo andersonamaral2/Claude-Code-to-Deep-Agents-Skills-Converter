@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-04-02
+
+### Added
+- `install.sh` — one-command installer that auto-detects locale (EN/PT) and registers the skill in Deep Agents CLI
+- One-liner installation: `git clone ... && ./install.sh`
+- Deep Agents self-install: let the agent clone and install via `deepagents -y -S all -n "Clone ... and run ./install.sh"`
+- YAML frontmatter added to SKILL.en.md and SKILL.pt.md source files
+- Installer supports `--agent NAME` for multi-agent setups and `--uninstall` to remove
+- Complete before/after conversion examples with full T1-T8 transformations (FastAPI Todo App, Docker Monitoring Stack)
+
+### Changed
+- README.md, README.en.md, README.pt.md updated with new installation methods (Options A-D)
+- Examples in `examples/deep-agents-output/` and `examples/deep-agents-output-2/` rewritten to demonstrate all 8 mandatory transformations
+- Fixed CLAUDE.md → AGENTS.md semantic replacement in example 2
+
 ## [2.0.0] - 2026-04-02
 
 ### Added
@@ -45,5 +60,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Complete documentation in English (`README.en.md`, `SKILL.en.md`)
 - Complete documentation in Portuguese (`README.pt.md`, `SKILL.pt.md`)
 
+[2.1.0]: https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/releases/tag/v2.1.0
 [2.0.0]: https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/releases/tag/v2.0.0
 [1.0.0]: https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/releases/tag/v1.0.0

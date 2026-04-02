@@ -1,3 +1,12 @@
+---
+name: skill-converter
+description: "Converte qualquer SKILL.md entre os formatos Claude Code e Deep Agents CLI — preservando 100% do conhecimento de dominio e adaptando a interface de execucao. Suporta conversao direta, reversa, dry-run e batch."
+metadata:
+  converter-version: "2.0"
+  deep-agents-compat: ">=0.0.34"
+  source-repo: "https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter"
+---
+
 # Skill: Claude Code ↔ Deep Agents Skill Converter
 
 > Converte qualquer SKILL.md entre os formatos Claude Code e Deep Agents CLI — preservando 100% do conhecimento de domínio e adaptando a interface de execução. Suporta conversão direta (Claude Code → Deep Agents), conversão reversa (Deep Agents → Claude Code), preview dry-run e processamento em lote.

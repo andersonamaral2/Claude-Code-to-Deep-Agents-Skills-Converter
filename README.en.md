@@ -35,20 +35,45 @@ A skill that works perfectly in Claude Code **won't work** in Deep Agents becaus
 
 ## Installation
 
-### Option A — Global skill (available in every session)
+### Option A — One-liner (recommended)
+
+Clone the repo and run the installer — it registers the skill in Deep Agents CLI automatically:
 
 ```bash
-# Create the skill directory
-mkdir -p ~/.deepagents/agent/skills/skill-converter
+git clone https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter.git
+cd Claude-Code-to-Deep-Agents-Skills-Converter
+./install.sh
+```
 
-# Copy the SKILL.md
+The installer:
+- Detects your locale and picks the right language (EN/PT)
+- Adds YAML frontmatter so Deep Agents recognizes the skill
+- Registers it globally at `~/.deepagents/agent/skills/skill-converter/`
+
+Options:
+```bash
+./install.sh --agent myagent   # Install for a specific agent
+./install.sh --uninstall       # Remove the skill
+```
+
+### Option B — Let Deep Agents install it for you
+
+You can also ask Deep Agents itself to clone and install:
+
+```bash
+deepagents -y -S "all" -n "Clone https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter.git and run ./install.sh"
+```
+
+### Option C — Manual install (global)
+
+```bash
+mkdir -p ~/.deepagents/agent/skills/skill-converter
 cp SKILL.en.md ~/.deepagents/agent/skills/skill-converter/SKILL.md
 ```
 
-### Option B — Local skill (project-scoped)
+### Option D — Manual install (project-scoped)
 
 ```bash
-# At the root of the project where you'll work
 mkdir -p .deepagents/skills/skill-converter
 cp SKILL.en.md .deepagents/skills/skill-converter/SKILL.md
 ```
@@ -56,12 +81,8 @@ cp SKILL.en.md .deepagents/skills/skill-converter/SKILL.md
 ### Verify installation
 
 ```bash
-# List available skills
-ls ~/.deepagents/agent/skills/
-# Should show: skill-converter/
-
-# Or, if installed locally:
-ls .deepagents/skills/
+deepagents skills list
+# Should show: skill-converter
 ```
 
 ---
