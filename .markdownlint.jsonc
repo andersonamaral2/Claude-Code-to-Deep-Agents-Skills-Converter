@@ -3,6 +3,10 @@
   "MD013": false,
   // Allow duplicate headings (EN/PT files reuse same structure)
   "MD024": false,
+  // Nested code blocks in before/after examples break this rule
+  "MD031": false,
+  // Lists after paragraphs in security docs
+  "MD032": false,
   // Allow inline HTML (badges use img tags)
   "MD033": false,
   // Allow bare URLs
@@ -10,5 +14,7 @@
   // Allow multiple blank lines
   "MD012": false,
   // Allow trailing punctuation in headings
-  "MD026": false
+  "MD026": false,
+  // Nested example blocks don't always have a language
+  "MD040": false
 }
