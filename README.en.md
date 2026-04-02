@@ -116,6 +116,13 @@ rm -rf ~/.deepagents/agent/skills/skill-converter
 
 ## Usage
 
+Once the skill-converter is installed, start Deep Agents and tell it **what to convert** and **where to save**. You provide the source skill in one of two ways:
+
+1. **By file path** — point to a SKILL.md on disk (the agent reads it)
+2. **By pasting** — paste the skill content directly into the chat
+
+Every example below assumes the converter is already installed (`deepagents skills list` shows `skill-converter`).
+
 ### Method 1 — Convert Claude Code → Deep Agents (from file)
 
 ```bash
@@ -168,6 +175,20 @@ deepagents -y
 deepagents -n -y \
   "Read the file ./SKILL-claude-code.md and convert from Claude Code to Deep Agents. \
    Save as ./SKILL-deepagents.md"
+```
+
+### Method 7 — Paste the skill directly
+
+No file needed — just paste the content into the chat:
+
+```bash
+deepagents -y
+
+> Convert this Claude Code skill to Deep Agents and save as ./converted/SKILL.md:
+>
+> # Skill: My App
+> Create the file src/main.py:
+> ...
 ```
 
 ---

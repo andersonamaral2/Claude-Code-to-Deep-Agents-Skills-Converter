@@ -37,7 +37,14 @@ curl -fsSL https://raw.githubusercontent.com/andersonamaral2/Claude-Code-to-Deep
 ### Use / Usar
 ```bash
 deepagents -y
-> Convert this Claude Code skill to Deep Agents
+
+# Point to a file / Aponte para um arquivo:
+> Convert the Claude Code skill at ~/my-skills/SKILL.md to Deep Agents. Save as ./converted/SKILL.md
+
+# Or paste the content directly / Ou cole o conteudo direto:
+> Convert this Claude Code skill to Deep Agents:
+> # Skill: My App
+> Create the file src/main.py: ...
 ```
 
 > Auto-detects your locale (EN/PT). See full install options in [English](/README.en.md#installation) or [Portugues](/README.pt.md#instalação).
