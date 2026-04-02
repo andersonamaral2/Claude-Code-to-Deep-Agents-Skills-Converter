@@ -227,7 +227,7 @@ else
     # STANDALONE MODE: download from GitHub
     echo -e "${CYAN}→${NC} Mode: standalone (downloading from GitHub)"
     TMPFILE=$(mktemp)
-    trap "rm -f $TMPFILE" EXIT
+    trap 'rm -f "$TMPFILE"' EXIT
 
     echo -e "${CYAN}→${NC} Downloading $SKILL_FILENAME..."
     download_skill "$GITHUB_RAW/$SKILL_FILENAME" "$TMPFILE"
