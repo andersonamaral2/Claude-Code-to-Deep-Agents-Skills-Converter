@@ -37,7 +37,26 @@ Uma skill perfeita para o Claude Code **não funciona** no Deep Agents porque o 
 
 ### Opção A — Uma linha (recomendado)
 
-Clone o repositório e rode o instalador — ele registra a skill no Deep Agents CLI automaticamente:
+Sem precisar de git clone — basta rodar:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/main/install.sh | bash
+```
+
+Pronto. O instalador baixa a skill do GitHub, adiciona frontmatter YAML, e registra no Deep Agents CLI. Detecta automaticamente seu idioma e escolhe Português ou Inglês.
+
+**Com opções:**
+```bash
+# Forçar Português
+curl -fsSL .../install.sh | bash -s -- --lang pt
+
+# Instalar para um agente específico
+curl -fsSL .../install.sh | bash -s -- --agent meuagente
+```
+
+### Opção B — Clone + install
+
+Se quiser o repositório completo (exemplos, docs, contribuição):
 
 ```bash
 git clone https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter.git
@@ -45,44 +64,52 @@ cd Claude-Code-to-Deep-Agents-Skills-Converter
 ./install.sh
 ```
 
-O instalador:
-- Detecta seu idioma e escolhe a versão correta (EN/PT)
-- Adiciona frontmatter YAML para o Deep Agents reconhecer a skill
-- Registra globalmente em `~/.deepagents/agent/skills/skill-converter/`
-
-Opções:
+Do repositório clonado você também tem:
 ```bash
 ./install.sh --agent meuagente   # Instalar para um agente específico
+./install.sh --lang pt           # Forçar Português
 ./install.sh --uninstall         # Remover a skill
 ```
 
-### Opção B — Deixe o Deep Agents instalar para você
+### Opção C — Deixe o Deep Agents instalar para você
 
-Você também pode pedir ao Deep Agents para clonar e instalar:
+Peça ao próprio agente para buscar e instalar:
 
 ```bash
-deepagents -y -S "all" -n "Clone https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter.git and run ./install.sh"
+deepagents -y -S "all" -n "Run: curl -fsSL https://raw.githubusercontent.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/main/install.sh | bash"
 ```
 
-### Opção C — Instalação manual (global)
+### Opção D — Instalação manual
+
+Se preferir controle total:
 
 ```bash
+# Global (disponível em toda sessão)
 mkdir -p ~/.deepagents/agent/skills/skill-converter
 cp SKILL.pt.md ~/.deepagents/agent/skills/skill-converter/SKILL.md
-```
 
-### Opção D — Instalação manual (escopo do projeto)
-
-```bash
+# Ou escopo do projeto
 mkdir -p .deepagents/skills/skill-converter
 cp SKILL.pt.md .deepagents/skills/skill-converter/SKILL.md
 ```
+
+> **Nota:** Instalação manual não injeta frontmatter YAML. A skill funciona mas `deepagents skills list` pode mostrar um aviso. Use o instalador para um setup limpo.
 
 ### Verificar instalação
 
 ```bash
 deepagents skills list
 # Deve mostrar: skill-converter
+```
+
+### Desinstalar
+
+```bash
+# Do repositório clonado:
+./install.sh --uninstall
+
+# Ou manualmente:
+rm -rf ~/.deepagents/agent/skills/skill-converter
 ```
 
 ---

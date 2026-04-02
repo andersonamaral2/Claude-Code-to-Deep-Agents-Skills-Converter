@@ -29,23 +29,18 @@
 
 ## Quick Start / Inicio Rapido
 
-### One-liner install
+### Install / Instalar
 ```bash
-git clone https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter.git && cd Claude-Code-to-Deep-Agents-Skills-Converter && ./install.sh
+curl -fsSL https://raw.githubusercontent.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/main/install.sh | bash
 ```
 
-### English
-1. Clone and install: `git clone ... && ./install.sh`
-2. Run: `deepagents -y`
-3. Say: "Convert this Claude Code skill to Deep Agents"
+### Use / Usar
+```bash
+deepagents -y
+> Convert this Claude Code skill to Deep Agents
+```
 
-### Portugues
-1. Clone e instale: `git clone ... && ./install.sh`
-2. Execute: `deepagents -y`
-3. Diga: "Converta essa skill do Claude Code para Deep Agents"
-
-> The installer auto-detects your locale (EN/PT) and registers the skill in Deep Agents CLI.
-> O instalador detecta automaticamente seu idioma (EN/PT) e registra a skill no Deep Agents CLI.
+> Auto-detects your locale (EN/PT). See full install options in [English](/README.en.md#installation) or [Portugues](/README.pt.md#instalação).
 
 ---
 
