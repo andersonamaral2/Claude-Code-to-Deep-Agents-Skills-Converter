@@ -1,0 +1,3 @@
+# requirements.txt para o frontend
+# Todos os pacotes utilizados são da biblioteca padrão do Python 3
+# Nenhuma dependência externa é necessária para server.py

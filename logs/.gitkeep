@@ -1,0 +1,3 @@
+# Este arquivo garante que o diretório logs seja incluído no Git
+# Diretório usado para logs das aplicações
+# Arquivos .log são ignorados pelo .gitignore mas o diretório precisa existir

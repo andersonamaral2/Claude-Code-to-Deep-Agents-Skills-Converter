@@ -1,0 +1,44 @@
+services:
+  # Scoras Chatbot API (Production with Azure VM Redis)
+  chatbot:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      # Azure AI Inference
+      - AZURE_ENDPOINT=${AZURE_ENDPOINT}
+      - AZURE_API_KEY=${AZURE_API_KEY}
+      - AZURE_API_VERSION=${AZURE_API_VERSION:-2024-05-01-preview}
+      - DEEPSEEK_MODEL=${DEEPSEEK_MODEL:-DeepSeek-V3-0324}
+      
+      # Redis na VM Azure (substitua pelo IP da sua VM)
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@${REDIS_VM_IP}:6379/0
+      
+      # Qdrant local ou na VM
+      - QDRANT_URL=${QDRANT_URL:-http://qdrant:6333}
+      
+      # Calendly
+      - CALENDLY_LINK=${CALENDLY_LINK:-https://calendly.com/scoras/reuniao}
+      
+      # Environment
+      - ENVIRONMENT=production
+    
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Qdrant Vector Database (local)
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+
+volumes:
+  qdrant_data: 

@@ -1,0 +1,3 @@
+# Este arquivo garante que o diretório admin_static seja incluído no Git
+# Diretório usado para arquivos estáticos CSS/JS do admin dashboard
+# Pode adicionar arquivos CSS, JS, imagens aqui se necessário
