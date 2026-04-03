@@ -255,6 +255,9 @@ else
     echo -e "${GREEN}✓${NC} Skill installed. Run '${BOLD}deepagents skills list${NC}' to verify."
 fi
 
+# --- Anonymous install counter (no personal data collected) ---
+curl -fsSL "https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fandersonamaral2%2FClaude-Code-to-Deep-Agents-Skills-Converter%2Finstall&count_bg=%2379C83D&title_bg=%23555555&icon=&emoji=&title=installs&edge_flat=false" -o /dev/null 2>/dev/null || true
+
 # --- Success message ---
 echo ""
 echo -e "${GREEN}${BOLD}Installation complete!${NC}"

@@ -5,6 +5,8 @@
 [![GitHub release](https://img.shields.io/github/v/release/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/releases)
 [![Last commit](https://img.shields.io/github/last-commit/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/commits/main)
 [![Deep Agents CLI](https://img.shields.io/badge/Deep%20Agents%20CLI-v0.0.34%2B-blue)](https://docs.langchain.com/oss/python/deepagents/cli)
+[![Installs](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fandersonamaral2%2FClaude-Code-to-Deep-Agents-Skills-Converter%2Finstall&count_bg=%2379C83D&title_bg=%23555555&icon=&emoji=&title=installs&edge_flat=false)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter)
+[![Visitors](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fandersonamaral2%2FClaude-Code-to-Deep-Agents-Skills-Converter&count_bg=%230969DA&title_bg=%23555555&icon=&emoji=&title=visitors&edge_flat=false)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter)
 
 Convert **any** SKILL.md between Claude Code and Deep Agents CLI formats — preserving 100% of the domain knowledge while adapting the execution interface. Now with bidirectional conversion, dry-run preview, and batch processing.
 
