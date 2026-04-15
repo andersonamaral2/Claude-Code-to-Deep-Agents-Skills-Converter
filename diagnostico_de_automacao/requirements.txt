@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+duckdb
+resend
+python-multipart
+itsdangerous

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico de Automação — Scoras Academy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #050510;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 460px;
+            padding: 20px;
+        }
+        .card {
+            background: #0d0d1a;
+            border: 1px solid #1a1a2e;
+            border-radius: 16px;
+            padding: 40px 32px;
+            box-shadow: 0 0 60px rgba(99, 102, 241, 0.08);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .logo h1 {
+            font-size: 22px;
+            background: linear-gradient(135deg, #6366f1, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        .logo p {
+            color: #666;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #6366f133, transparent);
+            margin: 24px 0;
+        }
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #f0f0f0;
+        }
+        .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #111125;
+            border: 1px solid #2a2a40;
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 15px;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+        input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+        input::placeholder { color: #444; }
+        .btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: #fff;
+        }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-back {
+            background: transparent;
+            color: #888;
+            border: 1px solid #2a2a40;
+            margin-top: 12px;
+        }
+        .btn-back:hover { color: #ccc; border-color: #444; }
+        .error-msg {
+            background: #1a0a0a;
+            border: 1px solid #4a1a1a;
+            color: #f87171;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .success-msg {
+            background: #0a1a0a;
+            border: 1px solid #1a4a1a;
+            color: #4ade80;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+            line-height: 1.5;
+        }
+        .info-msg {
+            background: #0a0a1a;
+            border: 1px solid #1a1a4a;
+            color: #818cf8;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+            line-height: 1.5;
+        }
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff4;
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .hidden { display: none !important; }
+        .step { display: none; }
+        .step.active { display: block; }
+        .footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 12px;
+            color: #444;
+        }
+        .footer a { color: #6366f1; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="logo">
+                <h1>Scoras Academy</h1>
+                <p>Diagnóstico de Automação</p>
+            </div>
+            <div class="divider"></div>
+
+            <!-- Step 1: Email -->
+            <div id="step-email" class="step active">
+                <h2>Acesse o Diagnóstico</h2>
+                <p class="subtitle">Informe seu e-mail para verificar seu acesso.</p>
+                <div id="error-email" class="error-msg"></div>
+                <div id="info-email" class="info-msg"></div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="seu@email.com" autofocus>
+                </div>
+                <button class="btn btn-primary" id="btn-check" onclick="checkEmail()">Continuar</button>
+            </div>
+
+            <!-- Step 2: Registration -->
+            <div id="step-register" class="step">
+                <h2>Cadastre-se</h2>
+                <p class="subtitle">Complete seu cadastro para acessar o diagnóstico do curso <strong>De Gargalos a Agentes</strong>.</p>
+                <div id="error-register" class="error-msg"></div>
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" placeholder="Seu nome">
+                </div>
+                <div class="form-group">
+                    <label for="sobrenome">Sobrenome</label>
+                    <input type="text" id="sobrenome" placeholder="Seu sobrenome">
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">E-mail</label>
+                    <input type="email" id="reg-email" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="celular">Celular (com DDD)</label>
+                    <input type="tel" id="celular" placeholder="(11) 99999-9999">
+                </div>
+                <button class="btn btn-primary" id="btn-register" onclick="registerUser()">Cadastrar</button>
+                <button class="btn btn-back" onclick="goToStep('email')">Voltar</button>
+            </div>
+
+            <!-- Step 3: Email sent -->
+            <div id="step-sent" class="step">
+                <h2>Verifique seu e-mail</h2>
+                <div class="success-msg" style="display: block;">
+                    Enviamos um e-mail de confirmação para <strong id="sent-email"></strong>.<br>
+                    Clique no link do e-mail para acessar o diagnóstico.
+                </div>
+                <p class="subtitle">Não recebeu? Verifique sua caixa de spam ou tente novamente.</p>
+                <button class="btn btn-back" onclick="goToStep('email')">Tentar outro e-mail</button>
+            </div>
+        </div>
+        <div class="footer">
+            <a href="https://scorasacademy.com.br" target="_blank">scorasacademy.com.br</a>
+        </div>
+    </div>
+
+    <script>
+        // Base path for API calls (auto-detect from current URL)
+        const BASE = window.location.pathname.replace(/\/$/, '');
+
+        // Check URL params for errors
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('error') === 'token_expirado') {
+            showError('email', 'Seu link expirou. Informe seu e-mail novamente.');
+        } else if (params.get('error') === 'nao_autorizado') {
+            showError('email', 'Acesso não autorizado. Verifique seu e-mail.');
+        } else if (params.get('error') === 'token_invalido') {
+            showError('email', 'Link inválido. Solicite um novo cadastro.');
+        }
+
+        function goToStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step-' + step).classList.add('active');
+        }
+
+        function showError(step, msg) {
+            const el = document.getElementById('error-' + step);
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+
+        function hideError(step) {
+            const el = document.getElementById('error-' + step);
+            if (el) { el.textContent = ''; el.style.display = 'none'; }
+        }
+
+        function setLoading(btnId, loading) {
+            const btn = document.getElementById(btnId);
+            if (loading) {
+                btn.disabled = true;
+                btn.dataset.text = btn.textContent;
+                btn.innerHTML = '<span class="spinner"></span>Aguarde...';
+            } else {
+                btn.disabled = false;
+                btn.textContent = btn.dataset.text || 'Continuar';
+            }
+        }
+
+        async function checkEmail() {
+            hideError('email');
+            const email = document.getElementById('email').value.trim();
+            if (!email) { showError('email', 'Informe seu e-mail.'); return; }
+
+            setLoading('btn-check', true);
+            try {
+                const res = await fetch(BASE + '/auth/check-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const data = await res.json();
+
+                if (data.status === 'aluno' || data.status === 'cadastrado') {
+                    window.location.href = data.redirect;
+                } else if (data.status === 'nao_encontrado') {
+                    document.getElementById('reg-email').value = email;
+                    goToStep('register');
+                } else if (data.error) {
+                    showError('email', data.error);
+                }
+            } catch (e) {
+                showError('email', 'Erro de conexão. Tente novamente.');
+            }
+            setLoading('btn-check', false);
+        }
+
+        async function registerUser() {
+            hideError('register');
+            const nome = document.getElementById('nome').value.trim();
+            const sobrenome = document.getElementById('sobrenome').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const celular = document.getElementById('celular').value.trim();
+
+            if (!nome || !sobrenome || !celular) {
+                showError('register', 'Preencha todos os campos.');
+                return;
+            }
+
+            setLoading('btn-register', true);
+            try {
+                const res = await fetch(BASE + '/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nome, sobrenome, email, celular })
+                });
+                const data = await res.json();
+
+                if (data.status === 'email_enviado') {
+                    document.getElementById('sent-email').textContent = email;
+                    goToStep('sent');
+                } else if (data.status === 'aluno') {
+                    window.location.href = data.redirect;
+                } else if (data.error) {
+                    showError('register', data.error);
+                }
+            } catch (e) {
+                showError('register', 'Erro de conexão. Tente novamente.');
+            }
+            setLoading('btn-register', false);
+        }
+
+        // Enter key support
+        document.getElementById('email').addEventListener('keydown', e => {
+            if (e.key === 'Enter') checkEmail();
+        });
+        document.getElementById('celular').addEventListener('keydown', e => {
+            if (e.key === 'Enter') registerUser();
+        });
+
+        // Phone mask
+        document.getElementById('celular').addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 11) v = v.slice(0, 11);
+            if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+            else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+            else if (v.length > 0) v = `(${v}`;
+            e.target.value = v;
+        });
+    </script>
+</body>
+</html>
