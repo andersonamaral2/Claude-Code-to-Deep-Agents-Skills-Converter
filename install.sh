@@ -14,9 +14,10 @@
 #     ./install.sh
 #
 # Options:
-#   --agent NAME    Install for a specific agent (default: "agent")
+#   --target NAME   deepagents (default) | claude | codex | qwen | cursor
+#   --agent NAME    Deep Agents agent identifier (only for --target deepagents)
 #   --lang en|pt    Force language (default: auto-detect from $LANG)
-#   --uninstall     Remove the installed skill
+#   --uninstall     Remove the installed skill (honors --target)
 #   --help          Show this help
 #
 # ============================================================================
@@ -26,6 +27,7 @@ set -euo pipefail
 # --- Config ---
 SKILL_NAME="skill-converter"
 AGENT_NAME="agent"
+TARGET="deepagents"
 FORCE_LANG=""
 UNINSTALL=false
 GITHUB_RAW="https://raw.githubusercontent.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/main"
@@ -73,11 +75,25 @@ print_help() {
     echo "    ./install.sh --agent myagent"
     echo ""
     echo "Options:"
-    echo "  --agent NAME    Agent identifier (default: agent)"
+    echo "  --target NAME   Where to install the converter skill:"
+    echo "                  deepagents (default) | claude | codex | qwen | cursor"
+    echo "  --agent NAME    Deep Agents agent identifier (only for --target deepagents; default: agent)"
     echo "  --lang en|pt    Force language (default: auto-detect from \$LANG)"
-    echo "  --uninstall     Remove the installed skill"
+    echo "  --uninstall     Remove the installed skill (honors --target)"
     echo "  --help          Show this help"
     echo ""
+}
+
+# Resolve the skills directory for the chosen target.
+resolve_skills_dir() {
+    case "$TARGET" in
+        deepagents) echo "$HOME/.deepagents/${AGENT_NAME}/skills" ;;
+        claude)     echo "$HOME/.claude/skills" ;;
+        codex)      echo "${CODEX_HOME:-$HOME/.codex}/skills" ;;
+        qwen)       echo "$HOME/.qwen/skills" ;;
+        cursor)     echo "$HOME/.cursor/skills" ;;
+        *)          echo ""; return 1 ;;
+    esac
 }
 
 detect_language() {
@@ -110,14 +126,16 @@ build_skill_file() {
     local source_file="$1"
     local target_file="$2"
 
-    # Write frontmatter
+    # Write frontmatter (universal; valid for every target's allow-list — the
+    # description has no angle brackets, so it passes Codex's validator too).
     cat > "$target_file" <<'FRONTMATTER'
 ---
 name: skill-converter
-description: "Converts any SKILL.md between Claude Code and Deep Agents CLI formats — preserving 100% of domain knowledge while adapting the execution interface. Supports forward, reverse, dry-run, and batch conversion."
+description: "Universal SKILL.md converter between Claude Code, Deep Agents CLI, Codex CLI, Qwen Code, and Cursor — preserving 100% of domain knowledge while adapting each target's execution interface. Bidirectional, with dry-run preview and batch processing."
 metadata:
-  converter-version: "2.1"
+  converter-version: "2.2"
   deep-agents-compat: ">=0.0.34"
+  codex-compat: ">=0.98.0"
   source-repo: "https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter"
 ---
 
@@ -134,6 +152,17 @@ FRONTMATTER
 # --- Parse arguments ---
 while [[ $# -gt 0 ]]; do
     case $1 in
+        --target)
+            TARGET="$2"
+            case "$TARGET" in
+                deepagents|claude|codex|qwen|cursor) ;;
+                *)
+                    echo -e "${RED}Error: --target must be one of: deepagents, claude, codex, qwen, cursor${NC}"
+                    exit 1
+                    ;;
+            esac
+            shift 2
+            ;;
         --agent)
             AGENT_NAME="$2"
             shift 2
@@ -162,7 +191,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-SKILLS_DIR="$HOME/.deepagents/${AGENT_NAME}/skills"
+SKILLS_DIR="$(resolve_skills_dir)"
 TARGET_DIR="${SKILLS_DIR}/${SKILL_NAME}"
 
 # --- Uninstall ---
@@ -184,16 +213,20 @@ fi
 # =====================
 print_banner
 
-# Check Deep Agents CLI
-if ! command -v deepagents &>/dev/null; then
-    echo -e "${RED}Error: deepagents CLI not found.${NC}"
-    echo ""
-    echo "Install it first:"
-    echo "  pip install deepagents-cli"
-    echo ""
-    exit 1
+echo -e "${CYAN}→${NC} Target: ${BOLD}${TARGET}${NC} (skills dir: ${SKILLS_DIR})"
+
+# Check Deep Agents CLI (only required when installing for Deep Agents).
+if [ "$TARGET" = "deepagents" ]; then
+    if ! command -v deepagents &>/dev/null; then
+        echo -e "${RED}Error: deepagents CLI not found.${NC}"
+        echo ""
+        echo "Install it first:"
+        echo "  pip install deepagents-cli"
+        echo ""
+        exit 1
+    fi
+    echo -e "${GREEN}✓${NC} Deep Agents CLI found: $(deepagents -v 2>&1 | head -1)"
 fi
-echo -e "${GREEN}✓${NC} Deep Agents CLI found: $(deepagents -v 2>&1 | head -1)"
 
 # Detect language
 LANG_CODE=$(detect_language)
@@ -249,11 +282,33 @@ echo -e "${GREEN}✓${NC} Skill installed to: ${BOLD}${TARGET_DIR}/SKILL.md${NC}
 # Verify
 echo ""
 echo -e "${CYAN}Verifying installation...${NC}"
-if deepagents skills info "$SKILL_NAME" --agent "$AGENT_NAME" 2>&1 | grep -qi "skill-converter\|converter"; then
-    echo -e "${GREEN}✓${NC} Skill '${BOLD}${SKILL_NAME}${NC}' is registered and visible in Deep Agents CLI!"
-else
-    echo -e "${GREEN}✓${NC} Skill installed. Run '${BOLD}deepagents skills list${NC}' to verify."
-fi
+case "$TARGET" in
+    deepagents)
+        if deepagents skills info "$SKILL_NAME" --agent "$AGENT_NAME" 2>&1 | grep -qi "skill-converter\|converter"; then
+            echo -e "${GREEN}✓${NC} Skill '${BOLD}${SKILL_NAME}${NC}' is registered and visible in Deep Agents CLI!"
+        else
+            echo -e "${GREEN}✓${NC} Skill installed. Run '${BOLD}deepagents skills list${NC}' to verify."
+        fi
+        ;;
+    codex)
+        echo -e "${GREEN}✓${NC} Skill installed for Codex. It is discovered from \$CODEX_HOME/skills on next run."
+        QV="${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/quick_validate.py"
+        if [ -f "$QV" ] && command -v python3 &>/dev/null; then
+            if python3 "$QV" "$TARGET_DIR" 2>/dev/null; then
+                echo -e "${GREEN}✓${NC} Passed Codex's bundled skill validator."
+            fi
+        fi
+        ;;
+    claude)
+        echo -e "${GREEN}✓${NC} Skill installed for Claude Code (~/.claude/skills). Restart your session to pick it up."
+        ;;
+    qwen)
+        echo -e "${GREEN}✓${NC} Skill installed for Qwen Code. Use '/skills' in the Qwen Code session to see it."
+        ;;
+    cursor)
+        echo -e "${GREEN}✓${NC} Skill installed for Cursor (~/.cursor/skills). Type '/${SKILL_NAME}' in Agent chat."
+        ;;
+esac
 
 # --- Anonymous install counter (no personal data collected) ---
 curl -fsSL "https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fandersonamaral2%2FClaude-Code-to-Deep-Agents-Skills-Converter%2Finstall&count_bg=%2379C83D&title_bg=%23555555&icon=&emoji=&title=installs&edge_flat=false" -o /dev/null 2>/dev/null || true
@@ -263,15 +318,20 @@ echo ""
 echo -e "${GREEN}${BOLD}Installation complete!${NC}"
 echo ""
 echo -e "${BOLD}Quick start:${NC}"
-echo "  deepagents -y"
-echo "  > Convert this Claude Code skill to Deep Agents: <paste or path>"
-echo ""
-echo -e "${BOLD}Or non-interactive:${NC}"
-echo "  deepagents -y -n \"Convert the Claude Code skill at ./my-skill/SKILL.md to Deep Agents format\""
+if [ "$TARGET" = "deepagents" ]; then
+    echo "  deepagents -y"
+    echo "  > Convert this Claude Code skill to Codex/Qwen/Cursor/Deep Agents: <paste or path>"
+    echo ""
+    echo -e "${BOLD}Or non-interactive:${NC}"
+    echo "  deepagents -y -n \"Convert the skill at ./my-skill/SKILL.md to Codex format\""
+else
+    echo "  Open your ${TARGET} session and ask it to convert a skill, e.g.:"
+    echo "  > Convert ~/.claude/skills/my-skill/SKILL.md to ${TARGET} format and save it"
+fi
 echo ""
 echo -e "${BOLD}Uninstall:${NC}"
 if [ "$MODE" = "local" ]; then
-    echo "  ./install.sh --uninstall"
+    echo "  ./install.sh --target ${TARGET} --uninstall"
 else
     echo "  rm -rf $TARGET_DIR"
 fi

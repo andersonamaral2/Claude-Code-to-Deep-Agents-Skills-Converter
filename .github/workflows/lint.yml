@@ -118,3 +118,48 @@ jobs:
         run: bash -n install.sh
       - name: Check install.sh --help exits cleanly
         run: bash install.sh --help
+      - name: Check install.sh rejects an invalid --target
+        run: |
+          if bash install.sh --target bogus >/dev/null 2>&1; then
+            echo "ERROR: invalid --target was accepted"
+            exit 1
+          fi
+          echo "OK: invalid --target rejected"
+
+  lang-parity:
+    name: EN/PT Parity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare heading counts between EN and PT files
+        run: |
+          ERRORS=0
+          check_pair() {
+            en_count=$(grep -cE '^#{1,6} ' "$1")
+            pt_count=$(grep -cE '^#{1,6} ' "$2")
+            if [ "$en_count" -ne "$pt_count" ]; then
+              echo "  MISMATCH: $1 has $en_count headings, $2 has $pt_count"
+              ERRORS=$((ERRORS + 1))
+            else
+              echo "  OK: $1 / $2 ($en_count headings)"
+            fi
+          }
+          check_pair SKILL.en.md SKILL.pt.md
+          check_pair README.md README.pt.md
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "FAILED: $ERRORS parity mismatch(es)"
+            exit 1
+          fi
+          echo "EN/PT parity OK"
+
+  secret-scan:
+    name: Secret Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan working tree for secrets with gitleaks
+        run: |
+          VERSION=8.21.2
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${VERSION}/gitleaks_${VERSION}_linux_x64.tar.gz" \
+            | tar -xz gitleaks
+          ./gitleaks dir . --no-banner --redact --exit-code 1 --verbose

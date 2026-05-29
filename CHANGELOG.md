@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **`install.sh --target <deepagents|claude|codex|qwen|cursor>`** — install the converter skill into any of the five CLIs' skill directories (defaults to Deep Agents). The Deep Agents CLI check is now skipped for other targets, and the verify/quick-start output is target-aware. Injected frontmatter updated to the universal v2.2 description (angle-bracket-free, so it passes Codex's validator).
+- **CI hardening** in `lint.yml`: a **gitleaks secret-scan** job (scans the working tree, fails on any finding) and an **EN/PT parity** job (heading-count check for SKILL and README pairs — closes issue #4). The installer job also asserts an invalid `--target` is rejected.
 - **Qwen Code converter** (bidirectional, Tier A), verified against Qwen Code 0.17.0 bundled skills: `.qwen/skills/<name>/SKILL.md`, frontmatter `name`/`description` + optional `allowedTools` (snake_case YAML list), `argument-hint`, `when_to_use`, `paths`, `disable-model-invocation`, `priority`. Key step is the snake_case tool-name remap (`Read`→`read_file`, `Bash`→`run_shell_command`, …). `CLAUDE.md`→`QWEN.md`.
 - `examples/qwen-output/python-fastapi-todo-app/SKILL.md` — FastAPI Todo sample converted to a Qwen Code skill, modeled on Qwen's own bundled skills.
 - `validate-conversion.sh`: Qwen target checks folder==name (convention) and flags Claude-style tool names in `allowedTools`. CI validates the Qwen example.
