@@ -78,7 +78,17 @@ curl -fsSL .../install.sh | bash -s -- --lang pt
 
 # Instalar para um agente específico
 curl -fsSL .../install.sh | bash -s -- --agent meuagente
+
+# Instalar a skill conversora em outra CLI (Deep Agents é o padrão)
+curl -fsSL .../install.sh | bash -s -- --target codex
+curl -fsSL .../install.sh | bash -s -- --target cursor
+curl -fsSL .../install.sh | bash -s -- --target qwen
+curl -fsSL .../install.sh | bash -s -- --target claude
 ```
+
+O `--target` escolhe o diretório de skills de destino: `~/.deepagents/<agente>/skills`
+(padrão), `~/.claude/skills`, `$CODEX_HOME/skills`, `~/.qwen/skills` ou `~/.cursor/skills`.
+Para Codex, ele também roda o validador que vem com o Codex quando disponível.
 
 ### Opção B — Clone + install
 
