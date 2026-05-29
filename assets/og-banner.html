@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1280px; height: 640px; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 80% -10%, #1b2b4d 0%, #0d1117 55%);
+    color: #e6edf3;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 72px 80px;
+  }
+  .kicker { font-size: 24px; letter-spacing: 2px; text-transform: uppercase; color: #7ea7ff; font-weight: 600; }
+  h1 { font-size: 78px; line-height: 1.04; font-weight: 800; margin: 18px 0 10px; letter-spacing: -1.5px; }
+  h1 .dot { color: #58c463; }
+  .tag { font-size: 28px; color: #9fb0c3; max-width: 1040px; line-height: 1.35; }
+  .pills { display: flex; gap: 14px; margin: 40px 0 0; flex-wrap: wrap; }
+  .pill {
+    font-size: 26px; font-weight: 600; padding: 12px 24px; border-radius: 999px;
+    background: rgba(126,167,255,0.10); border: 1.5px solid rgba(126,167,255,0.35); color: #cfe0ff;
+  }
+  .pill.hub { background: rgba(88,196,99,0.12); border-color: rgba(88,196,99,0.45); color: #b7f0bd; }
+  .foot { display: flex; align-items: center; gap: 20px; margin-top: 48px; font-size: 24px; color: #8b98a5; }
+  .foot .repo { color: #e6edf3; font-weight: 600; }
+  .badge { font-size: 22px; padding: 6px 16px; border-radius: 8px; background: #21262d; color: #9fb0c3; }
+  .badge.v { background: #1f6f33; color: #d7ffdb; }
+</style>
+</head>
+<body>
+  <div class="kicker">Open Source · MIT · Bilingual EN/PT</div>
+  <h1>Universal SKILL.md Converter<span class="dot">.</span></h1>
+  <div class="tag">Convert agent skills in <b>any direction</b> &mdash; preserving 100% of the domain knowledge.</div>
+  <div class="pills">
+    <span class="pill hub">Claude Code</span>
+    <span class="pill">Deep Agents</span>
+    <span class="pill">Codex</span>
+    <span class="pill">Qwen Code</span>
+    <span class="pill">Cursor</span>
+  </div>
+  <div class="foot">
+    <span class="badge v">v2.2.0</span>
+    <span class="repo">github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter</span>
+  </div>
+</body>
+</html>

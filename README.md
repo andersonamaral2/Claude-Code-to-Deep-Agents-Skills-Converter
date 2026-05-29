@@ -1,5 +1,9 @@
 # Universal SKILL.md Converter — Claude Code · Deep Agents · Codex · Qwen Code · Cursor
 
+<p align="center">
+  <img src="assets/og-banner-v2.2.png" alt="Universal SKILL.md Converter — Claude Code, Deep Agents, Codex, Qwen Code, Cursor" width="100%">
+</p>
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Lint & Validate](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/actions/workflows/lint.yml/badge.svg)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/actions/workflows/lint.yml)
 [![GitHub release](https://img.shields.io/github/v/release/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/releases)
@@ -49,23 +53,21 @@ This converter handles that translation automatically — **in every direction**
 
 ---
 
-## What's New in v2.1
+## What's New in v2.2
 
 | Feature | Description |
 |---------|-------------|
-| One-liner install | `curl \| bash` — no git clone needed |
-| Deep Agents self-install | Let the agent fetch and install the converter itself |
-| Bidirectional conversion | Deep Agents → Claude Code support |
-| Dry-run / preview | See the diff before saving |
-| Batch conversion | Convert all skills in a directory at once |
-| Inline command detection | Catches `npm install` inside sentences, not just code blocks |
-| Environment variables | Explicit verification and `.env` support |
-| Conditional flows | OS detection and tool availability via shell conditionals |
-| MCP custom tools | Handles `mcp__server__tool` call conversions |
-| Agent/hooks/thinking | Maps Claude Code Agent tool, hooks, and extended thinking |
-| YAML frontmatter | Adds Deep Agents skill metadata with version compatibility |
-| Executable validation | Grep-based lint checklist replaces "verify mentally" |
-| 10 Golden Rules | Up from 6, covering inline commands, env vars, conditionals, and validation |
+| 3 new targets | **Codex CLI**, **Qwen Code**, and **Cursor** — all bidirectional |
+| Cross-format matrix | One table mapping paths, frontmatter, tools, MCP config across all 5 formats |
+| Source/target detection | Infers both ends from fingerprints; picks the right conversion tier |
+| Two-tier model | Tier A (light remap for SKILL.md targets) · Tier B (heavy Deep Agents translation) |
+| Multi-target validator | `scripts/validate-conversion.sh` enforces each CLI's real frontmatter/path/tool rules |
+| `install.sh --target` | Install the converter into any of the 5 CLIs' skill directories |
+| Verified vs real CLIs | Formats confirmed against installed Codex 0.98.0 and Qwen Code 0.17.0, not just docs |
+| New examples | FastAPI in all 4 formats · Express + JWT + PostgreSQL + Docker · MCP server/tool conversion |
+| Hardened CI | Required **gitleaks secret-scan** + **EN/PT parity** checks on every PR |
+
+> Looking for the v2.1 (Claude Code ↔ Deep Agents) feature list? See the [CHANGELOG](CHANGELOG.md).
 
 ---
 

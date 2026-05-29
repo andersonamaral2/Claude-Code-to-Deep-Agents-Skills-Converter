@@ -1,5 +1,9 @@
 # Conversor Universal de SKILL.md — Claude Code · Deep Agents · Codex · Qwen Code · Cursor
 
+<p align="center">
+  <img src="assets/og-banner-v2.2.png" alt="Conversor Universal de SKILL.md — Claude Code, Deep Agents, Codex, Qwen Code, Cursor" width="100%">
+</p>
+
 Converte **qualquer** SKILL.md entre **Claude Code, Deep Agents CLI, Codex CLI, Qwen Code e Cursor** — preservando 100% do conhecimento de domínio e adaptando a interface de execução de cada alvo. Todas as direções são suportadas, além de preview dry-run e processamento em lote.
 
 > **English?** [Read in English](/README.md)
@@ -41,21 +45,21 @@ preservando 100% do conhecimento de domínio.
 
 ---
 
-## Novidades na v2.0
+## Novidades na v2.2
 
-| Feature | Descrição |
+| Recurso | Descrição |
 |---------|-----------|
-| Conversão bidirecional | Suporte Deep Agents → Claude Code |
-| Dry-run / preview | Veja o diff antes de salvar |
-| Conversão em lote | Converta todas as skills de um diretório de uma vez |
-| Detecção de comandos inline | Captura `npm install` dentro de frases, não só blocos de código |
-| Variáveis de ambiente | Verificação explícita e suporte a `.env` |
-| Fluxos condicionais | Detecção de SO e disponibilidade de ferramentas via shell |
-| Tools MCP customizadas | Converte chamadas `mcp__server__tool` |
-| Agent/hooks/thinking | Mapeia Agent tool, hooks e extended thinking do Claude Code |
-| Frontmatter YAML | Metadados da skill com compatibilidade de versão |
-| Validação executável | Checklist baseado em grep substitui "verificar mentalmente" |
-| 10 Regras de Ouro | Subiu de 6, cobrindo comandos inline, env vars, condicionais e validação |
+| 3 novos alvos | **Codex CLI**, **Qwen Code** e **Cursor** — todos bidirecionais |
+| Matriz entre formatos | Uma tabela mapeando caminhos, frontmatter, ferramentas e config MCP dos 5 formatos |
+| Detecção de origem/destino | Infere as duas pontas por impressões digitais e escolhe o tier de conversão |
+| Modelo de 2 níveis | Tier A (remap leve para alvos SKILL.md) · Tier B (tradução pesada Deep Agents) |
+| Validador multi-alvo | `scripts/validate-conversion.sh` aplica as regras reais de frontmatter/caminho/ferramenta de cada CLI |
+| `install.sh --target` | Instala o conversor em qualquer uma das 5 CLIs |
+| Verificado nas CLIs reais | Formatos confirmados no Codex 0.98.0 e Qwen Code 0.17.0 instalados, não só na doc |
+| Novos exemplos | FastAPI nos 4 formatos · Express + JWT + PostgreSQL + Docker · conversão de servidor/tools MCP |
+| CI endurecido | **Secret-scan (gitleaks)** + **paridade EN/PT** obrigatórios em todo PR |
+
+> Procurando a lista de recursos da v2.1 (Claude Code ↔ Deep Agents)? Veja o [CHANGELOG](CHANGELOG.md).
 
 ---
 
