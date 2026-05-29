@@ -413,7 +413,11 @@ kill %1
 ```
 ```
 
-Veja os arquivos SKILL para um **exemplo real completo** (API Express.js com JWT auth, Docker, env vars) mostrando todas as 8 transformações aplicadas.
+Veja o diretório `examples/` para **conversões completas antes/depois** mostrando todas as 8 transformações aplicadas:
+
+- **FastAPI Todo App** (`claude-code-sample` → `deep-agents-output`) — também convertido para os formatos Codex, Cursor e Qwen (`codex-output`, `cursor-output`, `qwen-output`).
+- **Docker Monitoring Stack** (`claude-code-sample-2` → `deep-agents-output-2`).
+- **API Express.js com JWT + PostgreSQL + Docker** (`claude-code-sample-3` → `deep-agents-output-3`) — uma conversão real com JWT auth, múltiplas camadas de middleware, banco relacional e dev local containerizado.
 
 ---
 

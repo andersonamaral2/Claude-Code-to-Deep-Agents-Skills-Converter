@@ -75,7 +75,7 @@ jobs:
       - name: Check converted examples have T1-T8 sections
         run: |
           ERRORS=0
-          for file in examples/deep-agents-output/SKILL.md examples/deep-agents-output-2/SKILL.md; do
+          for file in examples/deep-agents-output/SKILL.md examples/deep-agents-output-2/SKILL.md examples/deep-agents-output-3/SKILL.md; do
             echo "Checking $file..."
             for section in "Execution Context" "Execution Plan" "Prerequisites" "Usage with Deep Agents" "Troubleshooting"; do
               if ! grep -q "$section" "$file"; then
