@@ -5,37 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### Added
-
-- **Express.js full-stack conversion example** (closes #1): `examples/claude-code-sample-3/SKILL.md` → `examples/deep-agents-output-3/SKILL.md` — a real-world Express + JWT + PostgreSQL + Docker Compose skill with layered middleware and env-var handling, fully converted with all T1–T8 transformations. Wired into the CI example validator and listed in README EN/PT.
-- **MCP tool conversion example** (closes #3): Example 12 added to `SKILL.en.md` and `SKILL.pt.md` (in sync) showing `.claude/mcp.json` → `.deepagents/mcp.json`, preserved `mcp__server__tool` calls, token verification, and the `--trust-project-mcp` note (plus pointers to the Codex/Qwen/Cursor MCP config locations).
-- **`install.sh --target <deepagents|claude|codex|qwen|cursor>`** — install the converter skill into any of the five CLIs' skill directories (defaults to Deep Agents). The Deep Agents CLI check is now skipped for other targets, and the verify/quick-start output is target-aware. Injected frontmatter updated to the universal v2.2 description (angle-bracket-free, so it passes Codex's validator).
-- **CI hardening** in `lint.yml`: a **gitleaks secret-scan** job (scans the working tree, fails on any finding) and an **EN/PT parity** job (heading-count check for SKILL and README pairs — closes issue #4). The installer job also asserts an invalid `--target` is rejected.
-- **Qwen Code converter** (bidirectional, Tier A), verified against Qwen Code 0.17.0 bundled skills: `.qwen/skills/<name>/SKILL.md`, frontmatter `name`/`description` + optional `allowedTools` (snake_case YAML list), `argument-hint`, `when_to_use`, `paths`, `disable-model-invocation`, `priority`. Key step is the snake_case tool-name remap (`Read`→`read_file`, `Bash`→`run_shell_command`, …). `CLAUDE.md`→`QWEN.md`.
-- `examples/qwen-output/python-fastapi-todo-app/SKILL.md` — FastAPI Todo sample converted to a Qwen Code skill, modeled on Qwen's own bundled skills.
-- `validate-conversion.sh`: Qwen target checks folder==name (convention) and flags Claude-style tool names in `allowedTools`. CI validates the Qwen example.
-- **Cursor converter** (bidirectional, Tier A): `.cursor/skills/<name>/SKILL.md` with the skill `name` matching its parent folder; frontmatter `name`/`description` + optional `paths`/`disable-model-invocation`/`metadata` (no `allowed-tools`). Documents Cursor's legacy reading of `.claude/skills/`/`.codex/skills/` and flags sub-agents as non-portable.
-- `examples/cursor-output/python-fastapi-todo-app/SKILL.md` — FastAPI Todo sample converted to Cursor format (folder named to match `name`).
-- `validate-conversion.sh`: Cursor target now checks `name` == parent folder and warns on `allowed-tools`. CI validates the Cursor example.
-
 ## [2.2.0] - 2026-05-29
 
+Turns the Claude Code ↔ Deep Agents converter into a **Universal SKILL.md Converter** across
+five ecosystems, in any direction: Claude Code, Deep Agents CLI, Codex CLI, Qwen Code, and Cursor.
+
 ### Added
 
-- **Universal multi-format conversion.** The converter now targets five ecosystems in any direction: Claude Code, Deep Agents CLI, Codex CLI, Qwen Code, and Cursor.
-- **Cross-format reference matrix** in `SKILL.en.md` / `SKILL.pt.md` mapping skill paths, frontmatter fields, memory files, tool names, MCP config, and command arguments across all five formats.
+- **Universal multi-format conversion** with a **cross-format reference matrix** (skill paths, frontmatter fields, memory files, tool names, MCP config, command arguments) in `SKILL.en.md` / `SKILL.pt.md`.
 - **Source/target format detection** via fingerprints, and a **two-tier model**: Tier A (light remap for the natural-language SKILL.md targets — Codex/Qwen/Cursor) and Tier B (the existing heavy Claude Code ↔ Deep Agents T1–T8 translation).
 - **Codex CLI converter** (bidirectional), verified against Codex CLI 0.98.0: `$CODEX_HOME/skills` layout, strict frontmatter allow-list (`name`, `description`, `license`, `allowed-tools`, `metadata`), and the no-`<`/`>`-in-description rule.
-- `examples/codex-output/SKILL.md` — full before/after of the FastAPI Todo sample converted to Codex format (passes Codex's bundled `quick_validate.py`).
-- `scripts/validate-conversion.sh` — dependency-light, multi-target conversion validator (Codex rules implemented; Cursor/Qwen/Deep Agents/Claude targets scaffolded). Wired into CI.
+- **Cursor converter** (bidirectional, Tier A): `.cursor/skills/<name>/SKILL.md` with the skill `name` matching its parent folder; frontmatter `name`/`description` + optional `paths`/`disable-model-invocation`/`metadata` (no `allowed-tools`). Documents Cursor's legacy reading of `.claude/skills/`/`.codex/skills/` and flags sub-agents as non-portable.
+- **Qwen Code converter** (bidirectional, Tier A), verified against Qwen Code 0.17.0 bundled skills: `.qwen/skills/<name>/SKILL.md`, frontmatter `name`/`description` + optional `allowedTools` (snake_case YAML list), `argument-hint`, `when_to_use`, `paths`, `disable-model-invocation`, `priority`. Key step is the snake_case tool-name remap (`Read`→`read_file`, `Bash`→`run_shell_command`, …); `CLAUDE.md`→`QWEN.md`.
+- **`install.sh --target <deepagents|claude|codex|qwen|cursor>`** — install the converter skill into any of the five CLIs' skill directories (defaults to Deep Agents). The Deep Agents CLI check is skipped for other targets; verify/quick-start output is target-aware.
+- **`scripts/validate-conversion.sh`** — dependency-light, multi-target conversion validator (Codex frontmatter allow-list + no-angle-brackets; Cursor `name`==folder + no `allowed-tools`; Qwen snake_case tools; Deep Agents T1–T8). Wired into CI for every example.
+- **Conversion examples**: FastAPI Todo converted to Codex (`examples/codex-output`), Cursor (`examples/cursor-output/...`), and Qwen (`examples/qwen-output/...`); a real-world **Express + JWT + PostgreSQL + Docker** example (`claude-code-sample-3` → `deep-agents-output-3`, full T1–T8) (#1); and **Example 12** (MCP tool conversion: `.claude/mcp.json` → `.deepagents/mcp.json`, preserved `mcp__*` calls, `--trust-project-mcp`) in both SKILL files (#3).
+- **CI hardening** in `lint.yml`: a **gitleaks secret-scan** job, an **EN/PT parity** job (heading-count check, #4), per-target example validation, and an invalid-`--target` assertion.
 
 ### Changed
 
-- Skill renamed in spirit to **Universal SKILL.md Converter** (skill `name` stays `skill-converter` for install compatibility); `converter-version` bumped to `2.2`.
-- `.github/workflows/lint.yml` now validates the Codex example with `validate-conversion.sh`.
+- Repositioned as the **Universal SKILL.md Converter** (skill `name` stays `skill-converter` for install compatibility); `converter-version` bumped to `2.2`; READMEs and installer updated.
 - Golden Rules reorganized into Universal rules + Tier B additions.
+
+### Fixed
+
+- `install.sh --target qwen` emits metadata-free frontmatter (Qwen documents no `metadata` key); installer banner bumped to v2.2.
 
 ## [2.1.0] - 2026-04-02
 
