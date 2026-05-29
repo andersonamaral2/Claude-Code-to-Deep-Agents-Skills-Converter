@@ -36,6 +36,8 @@ jobs:
             CHANGELOG.md
             SECURITY.md
             CODE_OF_CONDUCT.md
+            docs/FAQ.md
+            docs/FAQ.pt.md
 
   yaml-frontmatter:
     name: Validate YAML Frontmatter

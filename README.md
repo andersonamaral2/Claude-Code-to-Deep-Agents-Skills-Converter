@@ -15,6 +15,8 @@
 Convert **any** SKILL.md between **Claude Code, Deep Agents CLI, Codex CLI, Qwen Code, and Cursor** — preserving 100% of the domain knowledge while adapting each target's execution interface. Every direction is supported, plus dry-run preview and batch processing.
 
 > **Portugues?** [Leia em Portugues](/README.pt.md)
+>
+> **New here?** The [FAQ](docs/FAQ.md) pre-empts the most common questions (do I even need this, fidelity, per-tool differences).
 
 ## Supported formats
 
