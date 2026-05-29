@@ -172,6 +172,23 @@ content and step prose are preserved verbatim. Only the *envelope* changes.
   `examples/cursor-output/python-fastapi-todo-app/SKILL.md` for a full before/after (note the
   folder named to match `name`).
 
+### Qwen Code specifics (verified against Qwen Code 0.17.0 bundled skills)
+
+- Frontmatter: required `name`, `description`; optional `allowedTools` (a YAML **list**, with
+  **snake_case** tool names), `argument-hint`, `when_to_use`, `paths`,
+  `disable-model-invocation`, `priority`. Keep frontmatter minimal — model it on Qwen's own
+  bundled skills (`qc-helper`, `review`).
+- **Tool-name remap is the key step.** Claude `allowed-tools: Read, Write, Edit, Bash` →
+  Qwen `allowedTools: [read_file, write_file, edit, run_shell_command]` (also `grep_search`,
+  `glob`, `read_many_files`, `task`). Snake_case list, not a comma string.
+- The skill folder is named to match `name` (Qwen convention; its bundled skills all follow it).
+- Memory/context: `CLAUDE.md` → `QWEN.md` (Qwen also reads `AGENTS.md`). Imports via
+  `@path/to/file.md` are supported.
+- Slash-command arguments use `{{args}}` (not `$ARGUMENTS`/`$1`); MCP servers go in
+  `~/.qwen/settings.json` under `mcpServers`.
+- See `examples/claude-code-sample/SKILL.md` →
+  `examples/qwen-output/python-fastapi-todo-app/SKILL.md` for a full before/after.
+
 ---
 
 # Tier B — Claude Code ↔ Deep Agents (heavy translation)

@@ -153,6 +153,15 @@ case "$TARGET" in
     grep -q '\.claude/'  "$FILE" && warn "stale reference '.claude/' (Cursor reads .claude/skills as legacy but .cursor/skills is canonical)"
     ;;
   qwen)
+    # Qwen bundled skills live in a folder matching the skill name (convention).
+    PARENT="$(basename "$(dirname "$FILE")")"
+    if [ -n "${NAME:-}" ] && [ "$NAME" != "$PARENT" ]; then
+      warn "Qwen skills conventionally live in a folder matching 'name' ('$NAME' vs folder '$PARENT')"
+    fi
+    # allowedTools must use Qwen's snake_case tool names, not Claude PascalCase.
+    if printf '%s\n' "$FRONTMATTER" | grep -qE '^[[:space:]]*-[[:space:]]*(Read|Write|Edit|Bash|Grep|Glob|Task|WebFetch|WebSearch)[[:space:]]*$'; then
+      warn "allowedTools uses Claude-style names — Qwen uses snake_case (read_file, write_file, edit, run_shell_command, grep_search, glob, task)"
+    fi
     grep -q 'CLAUDE\.md' "$FILE" && warn "stale reference 'CLAUDE.md' (Qwen Code uses QWEN.md or AGENTS.md)"
     grep -q '\.claude/'  "$FILE" && warn "stale reference '.claude/' (Qwen Code uses .qwen/skills)"
     ;;
