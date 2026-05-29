@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# Claude Code ↔ Deep Agents Skill Converter — Installer v2.1
+# Universal SKILL.md Converter — Installer v2.2
 # ============================================================================
 #
 # Works in two modes:
@@ -56,8 +56,8 @@ fi
 print_banner() {
     echo ""
     echo -e "${CYAN}  ╔══════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${CYAN}  ║${NC}  ${BOLD}Claude Code ↔ Deep Agents Skill Converter${NC}                ${CYAN}║${NC}"
-    echo -e "${CYAN}  ║${NC}  Installer v2.1                                           ${CYAN}║${NC}"
+    echo -e "${CYAN}  ║${NC}  ${BOLD}Universal SKILL.md Converter${NC}                              ${CYAN}║${NC}"
+    echo -e "${CYAN}  ║${NC}  Installer v2.2                                           ${CYAN}║${NC}"
     echo -e "${CYAN}  ╚══════════════════════════════════════════════════════════════╝${NC}"
     echo ""
 }
@@ -126,12 +126,24 @@ build_skill_file() {
     local source_file="$1"
     local target_file="$2"
 
-    # Write frontmatter (universal; valid for every target's allow-list — the
-    # description has no angle brackets, so it passes Codex's validator too).
-    cat > "$target_file" <<'FRONTMATTER'
+    # Write frontmatter. The description has no angle brackets, so it passes
+    # Codex's validator. Qwen Code documents only name/description/allowedTools/
+    # argument-hint/when_to_use/paths/disable-model-invocation/priority — so we
+    # emit a minimal block there (its bundled skills carry no `metadata`).
+    local desc="Universal SKILL.md converter between Claude Code, Deep Agents CLI, Codex CLI, Qwen Code, and Cursor — preserving 100% of domain knowledge while adapting each target's execution interface. Bidirectional, with dry-run preview and batch processing."
+    if [ "$TARGET" = "qwen" ]; then
+        {
+            echo "---"
+            echo "name: skill-converter"
+            echo "description: \"$desc\""
+            echo "---"
+            echo ""
+        } > "$target_file"
+    else
+        cat > "$target_file" <<FRONTMATTER
 ---
 name: skill-converter
-description: "Universal SKILL.md converter between Claude Code, Deep Agents CLI, Codex CLI, Qwen Code, and Cursor — preserving 100% of domain knowledge while adapting each target's execution interface. Bidirectional, with dry-run preview and batch processing."
+description: "$desc"
 metadata:
   converter-version: "2.2"
   deep-agents-compat: ">=0.0.34"
@@ -140,6 +152,7 @@ metadata:
 ---
 
 FRONTMATTER
+    fi
 
     # Append skill content, stripping any existing frontmatter
     if head -1 "$source_file" | grep -q '^---'; then
