@@ -152,6 +152,26 @@ content and step prose are preserved verbatim. Only the *envelope* changes.
 - See `examples/claude-code-sample/SKILL.md` → `examples/codex-output/SKILL.md` for a full
   before/after.
 
+### Cursor specifics (verified against Cursor docs)
+
+- Skill `name` **must match its parent folder name** exactly (lowercase letters, digits,
+  hyphens). So the skill lives at `.cursor/skills/<name>/SKILL.md` where `<name>` equals the
+  frontmatter `name`.
+- Frontmatter: required `name`, `description`; optional `paths` (glob visibility),
+  `disable-model-invocation` (true ⇒ slash-command only), `metadata`. **No `allowed-tools`** —
+  drop it on the way in.
+- Cursor reads `.claude/skills/`, `.codex/skills/`, `~/.claude/skills/`, `~/.codex/skills/`
+  as **legacy paths**, so a Claude Code skill often loads in Cursor with *no conversion at
+  all*. Converting to a native `.cursor/skills/` layout is still cleaner and lets you use
+  `paths`/`disable-model-invocation`.
+- **Sub-agents are non-portable**: Cursor has no skill-level `task`/sub-agent. If the source
+  skill fans out work to sub-agents, leave a note that the steps run sequentially in Cursor.
+- Memory/context: `CLAUDE.md` → `AGENTS.md` (Cursor reads it) or a `.cursor/rules/*.mdc`
+  Always-rule.
+- See `examples/claude-code-sample/SKILL.md` →
+  `examples/cursor-output/python-fastapi-todo-app/SKILL.md` for a full before/after (note the
+  folder named to match `name`).
+
 ---
 
 # Tier B — Claude Code ↔ Deep Agents (heavy translation)

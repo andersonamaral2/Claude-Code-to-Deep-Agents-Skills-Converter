@@ -138,6 +138,17 @@ case "$TARGET" in
       warn "Deep Agents tool names present — Codex uses implicit shell/apply_patch, not write_file/execute"
     ;;
   cursor)
+    # Cursor requires the skill 'name' to match its parent folder name.
+    PARENT="$(basename "$(dirname "$FILE")")"
+    if [ -n "${NAME:-}" ]; then
+      if [ "$NAME" != "$PARENT" ]; then
+        err "Cursor requires 'name' ('$NAME') to match the parent folder name ('$PARENT')"
+      else
+        ok "name matches parent folder ('$PARENT')"
+      fi
+    fi
+    printf '%s\n' "$FRONTMATTER" | grep -qE '^allowed-tools:' && \
+      warn "'allowed-tools' is not used by Cursor skills — safe to drop"
     grep -q 'CLAUDE\.md' "$FILE" && warn "stale reference 'CLAUDE.md' (Cursor uses AGENTS.md or .cursor/rules)"
     grep -q '\.claude/'  "$FILE" && warn "stale reference '.claude/' (Cursor reads .claude/skills as legacy but .cursor/skills is canonical)"
     ;;

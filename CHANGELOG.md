@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **Cursor converter** (bidirectional, Tier A): `.cursor/skills/<name>/SKILL.md` with the skill `name` matching its parent folder; frontmatter `name`/`description` + optional `paths`/`disable-model-invocation`/`metadata` (no `allowed-tools`). Documents Cursor's legacy reading of `.claude/skills/`/`.codex/skills/` and flags sub-agents as non-portable.
+- `examples/cursor-output/python-fastapi-todo-app/SKILL.md` — FastAPI Todo sample converted to Cursor format (folder named to match `name`).
+- `validate-conversion.sh`: Cursor target now checks `name` == parent folder and warns on `allowed-tools`. CI validates the Cursor example.
+
 ## [2.2.0] - 2026-05-29
 
 ### Added

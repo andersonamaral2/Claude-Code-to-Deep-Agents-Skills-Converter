@@ -154,6 +154,27 @@ de domínio e a prosa dos passos são preservados na íntegra. Só o *envelope* 
 - Veja `examples/claude-code-sample/SKILL.md` → `examples/codex-output/SKILL.md` para um
   before/after completo.
 
+### Especificidades do Cursor (verificadas na doc do Cursor)
+
+- O `name` da skill **precisa ser igual ao nome da pasta pai** (minúsculas, dígitos, hífens).
+  Ou seja, a skill fica em `.cursor/skills/<name>/SKILL.md` onde `<name>` é igual ao `name` do
+  frontmatter.
+- Frontmatter: obrigatórios `name`, `description`; opcionais `paths` (visibilidade por glob),
+  `disable-model-invocation` (true ⇒ só slash-command), `metadata`. **Sem `allowed-tools`** —
+  remova na entrada.
+- O Cursor lê `.claude/skills/`, `.codex/skills/`, `~/.claude/skills/`, `~/.codex/skills/`
+  como **caminhos legados**, então uma skill do Claude Code muitas vezes carrega no Cursor *sem
+  conversão alguma*. Converter para o layout nativo `.cursor/skills/` ainda é mais limpo e
+  permite usar `paths`/`disable-model-invocation`.
+- **Sub-agentes não são portáveis**: o Cursor não tem `task`/sub-agente a nível de skill. Se a
+  skill de origem distribui trabalho para sub-agentes, deixe uma nota de que os passos rodam
+  sequencialmente no Cursor.
+- Memória/contexto: `CLAUDE.md` → `AGENTS.md` (o Cursor lê) ou uma regra Always em
+  `.cursor/rules/*.mdc`.
+- Veja `examples/claude-code-sample/SKILL.md` →
+  `examples/cursor-output/python-fastapi-todo-app/SKILL.md` para um before/after completo
+  (note a pasta nomeada para bater com o `name`).
+
 ---
 
 # Tier B — Claude Code ↔ Deep Agents (tradução pesada)

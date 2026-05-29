@@ -197,6 +197,26 @@ scripts/validate-conversion.sh --target codex ~/.codex/skills/my-skill
 python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex/skills/my-skill
 ```
 
+### Method 2c — Convert Claude Code → Cursor (Tier A)
+
+```bash
+deepagents -y
+
+> Read ~/.claude/skills/my-skill/SKILL.md and convert it to a Cursor skill.
+> Save as ~/.cursor/skills/my-skill/SKILL.md
+```
+
+Cursor requires the skill `name` to **match its folder name**, drops `allowed-tools`, and
+reads `AGENTS.md` for project context. Validate with:
+
+```bash
+scripts/validate-conversion.sh --target cursor ~/.cursor/skills/my-skill
+```
+
+> **Heads-up:** Cursor also reads `.claude/skills/` natively as a legacy path, so an existing
+> Claude Code skill frequently works in Cursor with no conversion at all — converting just
+> gives you a clean native layout plus `paths`/`disable-model-invocation`.
+
 ### Method 3 — Dry-run / Preview (no save)
 
 ```bash
