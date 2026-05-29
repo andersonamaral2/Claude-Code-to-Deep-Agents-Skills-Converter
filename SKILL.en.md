@@ -1294,6 +1294,78 @@ Consider splitting route generation into `task` sub-agents.
 ```
 ```
 
+### Example 12: MCP server and custom tool calls
+
+**Original (Claude Code):**
+```markdown
+This skill posts release notes to Slack and opens a GitHub issue for follow-ups.
+It uses two MCP servers configured in `.claude/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": { "SLACK_BOT_TOKEN": "$SLACK_BOT_TOKEN" }
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_TOKEN": "$GITHUB_TOKEN" }
+    }
+  }
+}
+```
+
+After building, call `mcp__slack__send_message` to post to #releases, then
+`mcp__github__create_issue` to open a follow-up issue.
+```
+
+**Converted (Deep Agents):**
+```markdown
+## MCP Tool Integration
+
+Deep Agents CLI auto-loads MCP tools from `.deepagents/mcp.json` (same JSON schema as
+Claude Code's `.claude/mcp.json` — only the path changes).
+
+Use `write_file` to create `.deepagents/mcp.json`:
+```json
+{
+  "mcpServers": {
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": { "SLACK_BOT_TOKEN": "$SLACK_BOT_TOKEN" }
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_TOKEN": "$GITHUB_TOKEN" }
+    }
+  }
+}
+```
+
+Verify the required tokens before any MCP call, via `execute`:
+```bash
+for var in SLACK_BOT_TOKEN GITHUB_TOKEN; do
+  [ -z "${!var}" ] && echo "ERROR: $var not set" && exit 1
+done
+echo "MCP tokens OK"
+```
+
+The MCP tool names are **unchanged**: after the config loads, call
+`mcp__slack__send_message` to post to #releases, then `mcp__github__create_issue`
+to open the follow-up issue.
+
+**Note:** Project-level stdio MCP servers require approval on first use. Start the session
+with `deepagents --trust-project-mcp` to skip the prompt (remote SSE/HTTP servers are always
+allowed). For the other targets, the same servers move to `config.toml` `[mcp_servers.*]`
+(Codex), `settings.json` `mcpServers` (Qwen Code), or `.cursor/mcp.json` (Cursor) — see the
+cross-format matrix.
+```
+
 ---
 
 ## Special Cases

@@ -423,7 +423,11 @@ kill %1
 ```
 ```
 
-See the `examples/` directory for **complete before/after conversions** (FastAPI Todo App, Docker Monitoring Stack) showing all 8 transformations applied.
+See the `examples/` directory for **complete before/after conversions** showing all 8 transformations applied:
+
+- **FastAPI Todo App** (`claude-code-sample` → `deep-agents-output`) — also converted to Codex, Cursor, and Qwen formats (`codex-output`, `cursor-output`, `qwen-output`).
+- **Docker Monitoring Stack** (`claude-code-sample-2` → `deep-agents-output-2`).
+- **Express.js JWT API with PostgreSQL + Docker** (`claude-code-sample-3` → `deep-agents-output-3`) — a real-world conversion with JWT auth, layered middleware, a relational database, and containerized local dev.
 
 ---
 

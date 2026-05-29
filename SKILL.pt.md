@@ -1296,6 +1296,78 @@ Considere dividir a geração de rotas em sub-agents via `task`.
 ```
 ```
 
+### Exemplo 12: Servidor MCP e chamadas de tools customizadas
+
+**Original (Claude Code):**
+```markdown
+Esta skill publica release notes no Slack e abre uma issue no GitHub para follow-ups.
+Usa dois servidores MCP configurados em `.claude/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": { "SLACK_BOT_TOKEN": "$SLACK_BOT_TOKEN" }
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_TOKEN": "$GITHUB_TOKEN" }
+    }
+  }
+}
+```
+
+Após o build, chame `mcp__slack__send_message` para postar em #releases, depois
+`mcp__github__create_issue` para abrir uma issue de follow-up.
+```
+
+**Convertido (Deep Agents):**
+```markdown
+## Integração com Tools MCP
+
+O Deep Agents CLI carrega tools MCP automaticamente de `.deepagents/mcp.json` (mesmo schema
+JSON do `.claude/mcp.json` do Claude Code — só o caminho muda).
+
+Use `write_file` para criar `.deepagents/mcp.json`:
+```json
+{
+  "mcpServers": {
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": { "SLACK_BOT_TOKEN": "$SLACK_BOT_TOKEN" }
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_TOKEN": "$GITHUB_TOKEN" }
+    }
+  }
+}
+```
+
+Verifique os tokens necessários antes de qualquer chamada MCP, via `execute`:
+```bash
+for var in SLACK_BOT_TOKEN GITHUB_TOKEN; do
+  [ -z "${!var}" ] && echo "ERRO: $var não definida" && exit 1
+done
+echo "Tokens MCP OK"
+```
+
+Os nomes das tools MCP ficam **inalterados**: após a config carregar, chame
+`mcp__slack__send_message` para postar em #releases, depois `mcp__github__create_issue`
+para abrir a issue de follow-up.
+
+**Nota:** Servidores MCP stdio de projeto exigem aprovação no primeiro uso. Inicie a sessão
+com `deepagents --trust-project-mcp` para pular o prompt (servidores remotos SSE/HTTP são
+sempre permitidos). Para os outros alvos, os mesmos servidores vão para `config.toml`
+`[mcp_servers.*]` (Codex), `settings.json` `mcpServers` (Qwen Code) ou `.cursor/mcp.json`
+(Cursor) — veja a matriz entre formatos.
+```
+
 ---
 
 ## Casos Especiais
