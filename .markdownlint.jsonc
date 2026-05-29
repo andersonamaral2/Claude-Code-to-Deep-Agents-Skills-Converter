@@ -16,5 +16,7 @@
   // Allow trailing punctuation in headings
   "MD026": false,
   // Nested example blocks don't always have a language
-  "MD040": false
+  "MD040": false,
+  // Table pipe spacing/alignment varies across our multi-column matrices
+  "MD060": false
 }

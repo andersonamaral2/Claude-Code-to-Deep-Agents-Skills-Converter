@@ -102,6 +102,8 @@ jobs:
             exit 1
           fi
           echo "All examples valid"
+      - name: Validate Codex example with the conversion validator
+        run: bash scripts/validate-conversion.sh --target codex examples/codex-output
 
   installer-syntax:
     name: Validate Installer
