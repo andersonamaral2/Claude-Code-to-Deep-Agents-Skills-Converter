@@ -1,4 +1,4 @@
-# Claude Code ↔ Deep Agents Skill Converter
+# Universal SKILL.md Converter — Claude Code · Deep Agents · Codex · Qwen Code · Cursor
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Lint & Validate](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/actions/workflows/lint.yml/badge.svg)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/actions/workflows/lint.yml)
@@ -8,20 +8,44 @@
 [![Installs](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fandersonamaral2%2FClaude-Code-to-Deep-Agents-Skills-Converter%2Finstall&count_bg=%2379C83D&title_bg=%23555555&icon=&emoji=&title=installs&edge_flat=false)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter)
 [![Visitors](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fandersonamaral2%2FClaude-Code-to-Deep-Agents-Skills-Converter&count_bg=%230969DA&title_bg=%23555555&icon=&emoji=&title=visitors&edge_flat=false)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter)
 
-Convert **any** SKILL.md between Claude Code and Deep Agents CLI formats — preserving 100% of the domain knowledge while adapting the execution interface. Now with bidirectional conversion, dry-run preview, and batch processing.
+Convert **any** SKILL.md between **Claude Code, Deep Agents CLI, Codex CLI, Qwen Code, and Cursor** — preserving 100% of the domain knowledge while adapting each target's execution interface. Every direction is supported, plus dry-run preview and batch processing.
 
 > **Portugues?** [Leia em Portugues](/README.pt.md)
+
+## Supported formats
+
+| Format | User-level skill dir | Conversion tier |
+|--------|----------------------|-----------------|
+| **Claude Code** | `~/.claude/skills/<name>/SKILL.md` | — (hub format) |
+| **Deep Agents CLI** | `~/.deepagents/agent/skills/<name>/SKILL.md` | Tier B (typed tools) |
+| **Codex CLI** | `~/.codex/skills/<name>/SKILL.md` | Tier A (light remap) |
+| **Qwen Code** | `~/.qwen/skills/<name>/SKILL.md` | Tier A (light remap) |
+| **Cursor** | `~/.cursor/skills/<name>/SKILL.md` | Tier A (light remap) |
+
+All five now use a near-identical natural-language `SKILL.md` format, so conversion to Codex,
+Qwen Code, and Cursor is mostly **frontmatter + path + MCP-config remapping** (Tier A). Deep
+Agents uses typed explicit tools (`write_file`, `execute`, `task`), so it gets the heavier
+**Tier B** translation. The full mapping lives in the
+[cross-format reference matrix](/SKILL.en.md#cross-format-reference-matrix) inside the skill.
 
 ---
 
 ## Why does this exist?
 
-Claude Code and Deep Agents CLI are both agents with filesystem and shell access, but they speak different "languages":
+Coding agents increasingly share the same `SKILL.md` idea — a folder with a `SKILL.md` that
+teaches the agent a procedure — but they differ in the details that make a skill actually load
+and run:
 
-- **Claude Code** operates with implicit bash — it simply "writes" files and "runs" commands without declaring which tool it's using.
-- **Deep Agents CLI** operates with typed, explicit tools — `write_file`, `execute`, `edit_file`, `task`, etc.
+- **Frontmatter rules** differ (Codex forbids `<`/`>` in the description and allows only five
+  keys; Qwen uses `allowedTools` in camelCase; Cursor skills use `paths`).
+- **File locations** differ (`~/.codex/skills`, `~/.qwen/skills`, `~/.cursor/skills`, …).
+- **Memory files** differ (`CLAUDE.md` vs `AGENTS.md` vs `QWEN.md`).
+- **Deep Agents** goes further: it uses typed, explicit tools (`write_file`, `execute`,
+  `task`), so implicit "create file X" must become "use `write_file` to create X".
 
-A skill that works perfectly in Claude Code **won't work** in Deep Agents because the agent can't translate "create file X" into "use the `write_file` tool to create X". This converter handles that translation automatically — in both directions.
+A skill authored for one tool won't cleanly load in another until those details are remapped.
+This converter handles that translation automatically — **in every direction** — preserving
+100% of the domain knowledge.
 
 ---
 
@@ -152,6 +176,25 @@ deepagents -y
 > Convert this Deep Agents skill back to Claude Code format:
 > Read ~/deepagents-skills/my-skill/SKILL.md and convert to Claude Code.
 > Save as my-skill-claude-code/SKILL.md
+```
+
+### Method 2b — Convert Claude Code → Codex (Tier A)
+
+```bash
+deepagents -y
+
+> Read ~/.claude/skills/my-skill/SKILL.md and convert it to Codex format.
+> Save as ~/.codex/skills/my-skill/SKILL.md
+```
+
+The converter keeps the instruction prose, adds Codex-valid frontmatter (hyphen-case `name`,
+`description` with no `<`/`>`), and remaps `CLAUDE.md` → `AGENTS.md`. Validate the result with:
+
+```bash
+# the converter's own validator
+scripts/validate-conversion.sh --target codex ~/.codex/skills/my-skill
+# and Codex's bundled validator, if installed
+python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex/skills/my-skill
 ```
 
 ### Method 3 — Dry-run / Preview (no save)

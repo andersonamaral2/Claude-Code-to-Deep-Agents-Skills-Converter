@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2026-05-29
+
+### Added
+
+- **Universal multi-format conversion.** The converter now targets five ecosystems in any direction: Claude Code, Deep Agents CLI, Codex CLI, Qwen Code, and Cursor.
+- **Cross-format reference matrix** in `SKILL.en.md` / `SKILL.pt.md` mapping skill paths, frontmatter fields, memory files, tool names, MCP config, and command arguments across all five formats.
+- **Source/target format detection** via fingerprints, and a **two-tier model**: Tier A (light remap for the natural-language SKILL.md targets — Codex/Qwen/Cursor) and Tier B (the existing heavy Claude Code ↔ Deep Agents T1–T8 translation).
+- **Codex CLI converter** (bidirectional), verified against Codex CLI 0.98.0: `$CODEX_HOME/skills` layout, strict frontmatter allow-list (`name`, `description`, `license`, `allowed-tools`, `metadata`), and the no-`<`/`>`-in-description rule.
+- `examples/codex-output/SKILL.md` — full before/after of the FastAPI Todo sample converted to Codex format (passes Codex's bundled `quick_validate.py`).
+- `scripts/validate-conversion.sh` — dependency-light, multi-target conversion validator (Codex rules implemented; Cursor/Qwen/Deep Agents/Claude targets scaffolded). Wired into CI.
+
+### Changed
+
+- Skill renamed in spirit to **Universal SKILL.md Converter** (skill `name` stays `skill-converter` for install compatibility); `converter-version` bumped to `2.2`.
+- `.github/workflows/lint.yml` now validates the Codex example with `validate-conversion.sh`.
+- Golden Rules reorganized into Universal rules + Tier B additions.
+
 ## [2.1.0] - 2026-04-02
 
 ### Added
@@ -69,6 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Complete documentation in English (`README.en.md`, `SKILL.en.md`)
 - Complete documentation in Portuguese (`README.pt.md`, `SKILL.pt.md`)
 
+[2.2.0]: https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/releases/tag/v2.2.0
 [2.1.0]: https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/releases/tag/v2.1.0
 [2.0.0]: https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/releases/tag/v2.0.0
 [1.0.0]: https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter/releases/tag/v1.0.0

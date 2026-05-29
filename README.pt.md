@@ -1,19 +1,43 @@
-# Claude Code ↔ Deep Agents Skill Converter
+# Conversor Universal de SKILL.md — Claude Code · Deep Agents · Codex · Qwen Code · Cursor
 
-Converte **qualquer** SKILL.md entre os formatos Claude Code e Deep Agents CLI — preservando 100% do conhecimento de domínio e adaptando a interface de execução. Agora com conversão bidirecional, preview dry-run e processamento em lote.
+Converte **qualquer** SKILL.md entre **Claude Code, Deep Agents CLI, Codex CLI, Qwen Code e Cursor** — preservando 100% do conhecimento de domínio e adaptando a interface de execução de cada alvo. Todas as direções são suportadas, além de preview dry-run e processamento em lote.
 
 > **English?** [Read in English](/README.md)
+
+## Formatos suportados
+
+| Formato | Dir. de skills (usuário) | Tier de conversão |
+|---------|--------------------------|-------------------|
+| **Claude Code** | `~/.claude/skills/<nome>/SKILL.md` | — (formato hub) |
+| **Deep Agents CLI** | `~/.deepagents/agent/skills/<nome>/SKILL.md` | Tier B (ferramentas tipadas) |
+| **Codex CLI** | `~/.codex/skills/<nome>/SKILL.md` | Tier A (remap leve) |
+| **Qwen Code** | `~/.qwen/skills/<nome>/SKILL.md` | Tier A (remap leve) |
+| **Cursor** | `~/.cursor/skills/<nome>/SKILL.md` | Tier A (remap leve) |
+
+Os cinco agora usam um formato `SKILL.md` em linguagem natural quase idêntico, então converter
+para Codex, Qwen Code e Cursor é basicamente **remapear frontmatter + caminhos + config MCP**
+(Tier A). O Deep Agents usa ferramentas tipadas e explícitas (`write_file`, `execute`, `task`),
+então recebe a tradução mais pesada (**Tier B**). O mapeamento completo está na
+[matriz de referência entre formatos](/SKILL.pt.md#matriz-de-referência-entre-formatos) dentro da skill.
 
 ---
 
 ## Por que isso existe?
 
-O Claude Code e o Deep Agents CLI são ambos agentes com acesso a filesystem e shell, mas falam "línguas" diferentes:
+Agentes de código compartilham cada vez mais a mesma ideia de `SKILL.md` — uma pasta com um
+`SKILL.md` que ensina um procedimento ao agente — mas diferem nos detalhes que fazem a skill
+realmente carregar e rodar:
 
-- **Claude Code** opera com bash implícito — ele simplesmente "escreve" arquivos e "roda" comandos sem precisar declarar qual tool está usando.
-- **Deep Agents CLI** opera com tools tipadas e explícitas — `write_file`, `execute`, `edit_file`, `task`, etc.
+- **Regras de frontmatter** diferem (o Codex proíbe `<`/`>` na description e só aceita cinco
+  chaves; o Qwen usa `allowedTools` em camelCase; skills do Cursor usam `paths`).
+- **Locais dos arquivos** diferem (`~/.codex/skills`, `~/.qwen/skills`, `~/.cursor/skills`, …).
+- **Arquivos de memória** diferem (`CLAUDE.md` vs `AGENTS.md` vs `QWEN.md`).
+- **Deep Agents** vai além: usa ferramentas tipadas e explícitas (`write_file`, `execute`,
+  `task`), então "crie o arquivo X" implícito precisa virar "use `write_file` para criar X".
 
-Uma skill perfeita para o Claude Code **não funciona** no Deep Agents porque o agente não sabe traduzir "crie o arquivo X" para "use a tool `write_file` para criar X". Este conversor faz essa tradução automaticamente — nas duas direções.
+Uma skill feita para uma ferramenta não carrega direito em outra até esses detalhes serem
+remapeados. Este conversor faz essa tradução automaticamente — **em todas as direções** —
+preservando 100% do conhecimento de domínio.
 
 ---
 
@@ -142,6 +166,25 @@ deepagents -y
 > Converta essa skill do Deep Agents de volta para o formato Claude Code:
 > Leia ~/deepagents-skills/minha-skill/SKILL.md e converta para Claude Code.
 > Salve como minha-skill-claude-code/SKILL.md
+```
+
+### Método 2b — Converter Claude Code → Codex (Tier A)
+
+```bash
+deepagents -y
+
+> Leia ~/.claude/skills/minha-skill/SKILL.md e converta para o formato Codex.
+> Salve como ~/.codex/skills/minha-skill/SKILL.md
+```
+
+O conversor mantém a prosa das instruções, adiciona frontmatter válido para Codex (`name` em
+hyphen-case, `description` sem `<`/`>`) e remapeia `CLAUDE.md` → `AGENTS.md`. Valide o resultado com:
+
+```bash
+# o validador do próprio conversor
+scripts/validate-conversion.sh --target codex ~/.codex/skills/minha-skill
+# e o validador que vem com o Codex, se instalado
+python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex/skills/minha-skill
 ```
 
 ### Método 3 — Dry-run / Preview (sem salvar)

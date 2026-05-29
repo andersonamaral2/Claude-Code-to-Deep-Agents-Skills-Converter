@@ -1,15 +1,16 @@
 ---
 name: skill-converter
-description: "Converts any SKILL.md between Claude Code and Deep Agents CLI formats — preserving 100% of domain knowledge while adapting the execution interface. Supports forward, reverse, dry-run, and batch conversion."
+description: "Universal SKILL.md converter between Claude Code, Deep Agents CLI, Codex CLI, Qwen Code, and Cursor — preserving 100% of domain knowledge while adapting each target's execution interface. Bidirectional, with dry-run preview and batch processing."
 metadata:
-  converter-version: "2.0"
+  converter-version: "2.2"
   deep-agents-compat: ">=0.0.34"
+  codex-compat: ">=0.98.0"
   source-repo: "https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter"
 ---
 
-# Skill: Claude Code ↔ Deep Agents Skill Converter
+# Skill: Universal SKILL.md Converter
 
-> Converts any SKILL.md between Claude Code and Deep Agents CLI formats — preserving 100% of domain knowledge while adapting the execution interface. Supports forward conversion (Claude Code → Deep Agents), reverse conversion (Deep Agents → Claude Code), dry-run preview, and batch processing.
+> Converts any SKILL.md between Claude Code, Deep Agents CLI, Codex CLI, Qwen Code, and Cursor — preserving 100% of domain knowledge while adapting each target's execution interface. Every direction is supported, plus dry-run preview and batch processing.
 
 ---
 
@@ -17,16 +18,147 @@ metadata:
 
 This skill is triggered when the user asks something like:
 
-- "Convert this Claude Code skill to Deep Agents"
-- "Convert this Deep Agents skill to Claude Code"
-- "Adapt this SKILL.md to work with Deep Agents"
-- "Port this skill from Claude Code to Deep Agents"
-- "I have a Claude Code skill, I want to use it in Deep Agents"
+- "Convert this Claude Code skill to Deep Agents / Codex / Qwen Code / Cursor"
+- "Convert this Codex (or Qwen / Cursor / Deep Agents) skill back to Claude Code"
+- "Adapt this SKILL.md to work with {tool}"
+- "Port / migrate this skill from {tool A} to {tool B}"
+- "I have a skill for {tool A}, I want to use it in {tool B}"
 - "Preview the conversion without saving" / "Dry-run"
 - "Convert all skills in this folder"
 - Or when the user provides a SKILL.md file and asks to "convert", "adapt", "port", "migrate"
 
 ---
+
+## Supported formats
+
+This converter handles five agent-skill ecosystems, in **any** direction:
+
+| Format | User-level skill dir | Skill body style |
+|--------|----------------------|------------------|
+| **Claude Code** | `~/.claude/skills/<name>/SKILL.md` | Natural language, implicit tools |
+| **Deep Agents CLI** | `~/.deepagents/agent/skills/<name>/SKILL.md` | Typed explicit tools (`write_file`, `execute`, `task`) |
+| **Codex CLI** | `~/.codex/skills/<name>/SKILL.md` (`$CODEX_HOME/skills`) | Natural language, implicit `shell`/`apply_patch` |
+| **Qwen Code** | `~/.qwen/skills/<name>/SKILL.md` | Natural language; tools are snake_case |
+| **Cursor** | `~/.cursor/skills/<name>/SKILL.md` | Natural language; also reads `.claude/skills/` as legacy |
+
+> **Verified locally:** Codex CLI 0.98.0 discovers skills under `$CODEX_HOME/skills` and
+> validates frontmatter with `skill-creator/scripts/quick_validate.py`. Newer/older versions
+> and project-level paths may differ — always confirm against the installed CLI.
+
+---
+
+## Cross-format reference matrix
+
+This table is the heart of the converter. To convert, look up the **source** column and the
+**target** column for each concept and remap accordingly.
+
+| Concept | Claude Code | Deep Agents CLI | Codex CLI | Qwen Code | Cursor |
+|---------|-------------|-----------------|-----------|-----------|--------|
+| Skill dir (user) | `~/.claude/skills/` | `~/.deepagents/agent/skills/` | `~/.codex/skills/` | `~/.qwen/skills/` | `~/.cursor/skills/` |
+| Skill dir (project) | `.claude/skills/` | `.deepagents/skills/` | `.codex/skills/` | `.qwen/skills/` | `.cursor/skills/` (+ reads `.claude/skills/`) |
+| Frontmatter required | `name`, `description` | `name`, `description` | `name`, `description` | `name`, `description` | `name`, `description` |
+| Frontmatter optional | `allowed-tools` | `metadata` | `license`, `allowed-tools`, `metadata` | `allowedTools`, `argument-hint`, `priority`, `paths`, `disable-model-invocation` | `paths`, `disable-model-invocation`, `metadata` |
+| `name` rules | hyphen-case | hyphen-case | hyphen-case, ≤64 chars | unicode-aware slug | lowercase + hyphens |
+| `description` rules | ≤1024 | ≤1024 | ≤1024, **no `<` or `>`** | ≤1024 | ≤1024 |
+| Memory / context file | `CLAUDE.md` | `AGENTS.md` | `AGENTS.md` (+ `AGENTS.override.md`) | `QWEN.md` (also `AGENTS.md`) | `.cursor/rules/*.mdc` (Always) or `AGENTS.md` |
+| Slash commands | `.claude/commands/*.md` | (n/a) | `~/.codex/prompts/*.md` (deprecated) | `.qwen/commands/*.md` | `.cursor/commands/*.md` |
+| Command arguments | `$ARGUMENTS`, `$1` | (n/a) | `$1`–`$9`, `$ARGUMENTS` | `{{args}}` | (n/a) |
+| Create / edit file | implicit | `write_file` / `edit_file` | implicit (`apply_patch`) | `write_file` / `edit` / `replace` | implicit (agent) |
+| Run shell | implicit `bash` | `execute` | implicit `shell` | `run_shell_command` | terminal (with approval) |
+| Read / search | implicit | `read_file` / `grep` / `glob` | implicit | `read_file` / `grep` / `glob` | implicit |
+| Sub-agents | `Agent` / `Task` | `task` | (none at skill level) | `task` / subagents | **none (non-portable)** |
+| Config file | `settings.json` | (CLI config) | `config.toml` | `settings.json` | settings + `.cursor/mcp.json` |
+| MCP config | `.mcp.json` (`mcpServers`) | `.deepagents/mcp.json` | `[mcp_servers.*]` in `config.toml` | `mcpServers` in `settings.json` | `.cursor/mcp.json` (`mcpServers`) |
+
+---
+
+## Detect the source and target format
+
+If the user does not state both ends explicitly, infer them from these fingerprints:
+
+- **Deep Agents** — explicit `write_file`, `edit_file`, `execute`, `write_todos`, `task`
+  tool references; `.deepagents/`; "Execution Context"/"Execution Plan" sections.
+- **Codex** — `apply_patch`, `shell` tool, `~/.codex/skills` / `.codex/`, `config.toml`,
+  `AGENTS.md`; frontmatter limited to `name`/`description`/`license`/`allowed-tools`/`metadata`.
+- **Qwen Code** — `allowedTools:` (camelCase key) with snake_case tool names, `.qwen/`,
+  `QWEN.md`, `{{args}}` in commands.
+- **Cursor** — `.cursor/skills` / `.cursor/rules/*.mdc`, `globs`/`alwaysApply` frontmatter
+  (that is a Rule, not a Skill).
+- **Claude Code** — natural-language instructions with no explicit tool names, `CLAUDE.md`,
+  `.claude/`, `$ARGUMENTS`/`$1`; often **no frontmatter at all**.
+
+---
+
+## Two conversion tiers
+
+The amount of work depends on the pair:
+
+- **Tier A — light remap** (Claude Code ↔ Codex / Qwen / Cursor). All four are
+  *natural-language* `SKILL.md` formats with near-identical structure. Conversion is mostly
+  frontmatter + path/memory-file remapping; the instruction prose stays essentially the same.
+  See **Tier A procedure** below.
+- **Tier B — heavy translation** (Claude Code ↔ Deep Agents). Deep Agents uses *typed,
+  explicit* tools, so implicit "create the file" must become explicit `write_file`, etc. This
+  is the full T1–T8 procedure documented from **Context: Why conversion is needed** onward.
+
+> Converting between two non-Claude formats (e.g. Codex → Cursor)? Route through Claude Code
+> as the neutral hub: source → Claude Code → target. In practice, for Tier-A pairs you can
+> remap directly using the matrix.
+
+---
+
+## Tier A procedure (SKILL.md ↔ SKILL.md: Codex, Qwen Code, Cursor)
+
+These targets run natural-language skills almost identically to Claude Code, so the domain
+content and step prose are preserved verbatim. Only the *envelope* changes.
+
+1. **Read the source skill** and detect source + target (see fingerprints above).
+2. **Frontmatter:**
+   - Ensure a `name` exists and is **hyphen-case** (`^[a-z0-9-]+$`, no leading/trailing
+     hyphen, no `--`, ≤64 chars). Claude Code skills often have *no frontmatter* — derive the
+     name from the folder or the `# Skill:` title.
+   - Ensure a `description` exists (≤1024 chars) that states **what it does and when to use
+     it** (targets use it for auto-invocation).
+   - Remap optional fields per the matrix:
+     - Claude `allowed-tools` ⇄ Codex `allowed-tools` (same key) ⇄ Qwen `allowedTools`
+       (camelCase key, **snake_case tool names**). Cursor skills don't use an allow-list — drop it.
+     - Keep `metadata` where supported (Claude/Codex/Cursor); add a
+       `converted-from`/`converter-version` stamp.
+3. **Body remap** (light — preserve all domain knowledge, code, tables):
+   - Memory/context file: `CLAUDE.md` → target's (`AGENTS.md` for Codex, `QWEN.md` for Qwen,
+     `AGENTS.md`/Rules for Cursor) and vice versa.
+   - Path references: `.claude/` → the target's skill/config dir.
+   - MCP config: remap path **and format** per the matrix (`.mcp.json` JSON →
+     `config.toml [mcp_servers]` for Codex; → `settings.json mcpServers` for Qwen; →
+     `.cursor/mcp.json` for Cursor).
+4. **Flag non-portable features explicitly** (never drop silently — add a note):
+   - Sub-agents/`Task` → **Cursor has no skill-level sub-agents**; Codex/Qwen keep `task`.
+   - Claude Code hooks (`settings.json`) → no skill equivalent; document as manual/CI steps.
+   - Extended thinking → model-dependent; remove tool-specific config, keep the intent.
+5. **Validate** with `scripts/validate-conversion.sh --target <codex|cursor|qwen> <dir>`
+   (and, for Codex, the bundled `skill-creator/scripts/quick_validate.py`).
+6. **Save** to `<name>/SKILL.md` under the target's skill dir (see matrix).
+
+### Codex specifics (verified against Codex CLI 0.98.0)
+
+- Frontmatter **allow-list is strict**: only `name`, `description`, `license`,
+  `allowed-tools`, `metadata`. Any other top-level key fails `quick_validate.py`.
+- `description` **must not contain `<` or `>`** — rewrite phrasings like "when A > B" to
+  "when A is greater than B". This is the most common Claude → Codex breakage.
+- Optional `agents/openai.yaml` sidecar provides UI metadata
+  (`interface.display_name`, `short_description`, icons). Generate it only if the user wants
+  the skill to show a custom label/icon.
+- Optional `scripts/`, `references/`, `assets/` subdirectories are copied as-is.
+- See `examples/claude-code-sample/SKILL.md` → `examples/codex-output/SKILL.md` for a full
+  before/after.
+
+---
+
+# Tier B — Claude Code ↔ Deep Agents (heavy translation)
+
+Everything from here on is the **Deep Agents** path: the implicit↔explicit tool translation
+(T1–T8). For Codex, Qwen Code, and Cursor, use the **Tier A procedure** above instead — those
+targets do not need this level of rewriting.
 
 ## Context: Why conversion is needed
 
@@ -1288,13 +1420,18 @@ Sections 7–11 vary per skill. The important thing is that ALL technical sectio
 
 ## Golden Rules
 
-1. **Never lose content.** The converted skill is ≥ original size.
-2. **Never assume implicits.** Deep Agents CLI needs explicit instructions on which tool to use.
-3. **Always start with `write_todos`.** The plan is the foundation of every Deep Agents execution.
-4. **Test after every `write_file`.** The create → test → next pattern is unbreakable.
-5. **Use `task` for parallelism.** If the skill processes N items, use N sub-agents.
-6. **Preserve all domain knowledge.** Tables, regex, formulas, templates — everything.
-7. **Catch inline commands.** Backtick-wrapped commands inside sentences need conversion too.
-8. **Handle env vars explicitly.** Never assume variables are available — verify or document them.
-9. **Make conditionals executable.** Platform checks become shell `case`/`if` blocks, not prose.
-10. **Validate with the checklist.** Run the grep-based validation before saving.
+**Universal (every target):**
+
+1. **Preserve all domain knowledge.** Tables, regex, formulas, code, templates — everything. The converted skill is ≥ the original in technical content.
+2. **Pick the right tier.** Codex / Qwen / Cursor → Tier A (light remap). Deep Agents → Tier B (T1–T8).
+3. **Remap the envelope, not the meaning.** Frontmatter, paths, memory file, MCP config — per the cross-format matrix.
+4. **Respect each target's frontmatter rules.** Hyphen-case `name` ≤64; `description` ≤1024; for Codex, no `<`/`>` in the description and only the five allowed keys.
+5. **Flag non-portable features — never drop silently.** Sub-agents into Cursor, hooks, extended thinking: leave a note.
+6. **Validate before saving.** Run `scripts/validate-conversion.sh --target <t>` (and Codex's `quick_validate.py` for Codex).
+
+**Tier B (Deep Agents) additions:**
+
+7. **Never assume implicits.** Deep Agents needs explicit instructions on which tool to use.
+8. **Always start with `write_todos`** and **test after every `write_file`** (create → test → next).
+9. **Use `task` for parallelism**, handle **env vars explicitly**, and make **conditionals executable** (`case`/`if`).
+10. **Catch inline commands.** Backtick-wrapped commands inside sentences need conversion too.
