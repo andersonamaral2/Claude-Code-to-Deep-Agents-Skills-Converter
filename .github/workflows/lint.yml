@@ -106,6 +106,8 @@ jobs:
         run: bash scripts/validate-conversion.sh --target codex examples/codex-output
       - name: Validate Cursor example with the conversion validator
         run: bash scripts/validate-conversion.sh --target cursor examples/cursor-output/python-fastapi-todo-app
+      - name: Validate Qwen example with the conversion validator
+        run: bash scripts/validate-conversion.sh --target qwen examples/qwen-output/python-fastapi-todo-app
 
   installer-syntax:
     name: Validate Installer

@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Qwen Code converter** (bidirectional, Tier A), verified against Qwen Code 0.17.0 bundled skills: `.qwen/skills/<name>/SKILL.md`, frontmatter `name`/`description` + optional `allowedTools` (snake_case YAML list), `argument-hint`, `when_to_use`, `paths`, `disable-model-invocation`, `priority`. Key step is the snake_case tool-name remap (`Read`→`read_file`, `Bash`→`run_shell_command`, …). `CLAUDE.md`→`QWEN.md`.
+- `examples/qwen-output/python-fastapi-todo-app/SKILL.md` — FastAPI Todo sample converted to a Qwen Code skill, modeled on Qwen's own bundled skills.
+- `validate-conversion.sh`: Qwen target checks folder==name (convention) and flags Claude-style tool names in `allowedTools`. CI validates the Qwen example.
 - **Cursor converter** (bidirectional, Tier A): `.cursor/skills/<name>/SKILL.md` with the skill `name` matching its parent folder; frontmatter `name`/`description` + optional `paths`/`disable-model-invocation`/`metadata` (no `allowed-tools`). Documents Cursor's legacy reading of `.claude/skills/`/`.codex/skills/` and flags sub-agents as non-portable.
 - `examples/cursor-output/python-fastapi-todo-app/SKILL.md` — FastAPI Todo sample converted to Cursor format (folder named to match `name`).
 - `validate-conversion.sh`: Cursor target now checks `name` == parent folder and warns on `allowed-tools`. CI validates the Cursor example.

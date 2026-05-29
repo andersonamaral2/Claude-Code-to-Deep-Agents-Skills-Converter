@@ -217,6 +217,23 @@ scripts/validate-conversion.sh --target cursor ~/.cursor/skills/my-skill
 > Claude Code skill frequently works in Cursor with no conversion at all — converting just
 > gives you a clean native layout plus `paths`/`disable-model-invocation`.
 
+### Method 2d — Convert Claude Code → Qwen Code (Tier A)
+
+```bash
+deepagents -y
+
+> Read ~/.claude/skills/my-skill/SKILL.md and convert it to a Qwen Code skill.
+> Save as ~/.qwen/skills/my-skill/SKILL.md
+```
+
+The key step is the **tool-name remap**: Claude `allowed-tools: Read, Write, Edit, Bash`
+becomes Qwen `allowedTools: [read_file, write_file, edit, run_shell_command]` (snake_case YAML
+list). `CLAUDE.md` → `QWEN.md`. Validate with:
+
+```bash
+scripts/validate-conversion.sh --target qwen ~/.qwen/skills/my-skill
+```
+
 ### Method 3 — Dry-run / Preview (no save)
 
 ```bash
