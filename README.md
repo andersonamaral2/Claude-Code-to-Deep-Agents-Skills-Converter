@@ -501,3 +501,25 @@ After installation, the skill lives at:
 ## License
 
 MIT — use, adapt, and distribute as you wish. See [LICENSE](LICENSE).
+
+
+---
+
+## ⚠️ Scoras Digital DevOps Agent — Verificação
+
+[![DevOps Score](https://img.shields.io/badge/DevOps%20Score-59%2F100%20(C)-yellow?style=for-the-badge&logo=github)](./andersonamaral2_Claude-Code-to-Deep-Agents-Skills-Converter_2026-05-30.md)
+[![Scoras DevOps Agent](https://img.shields.io/badge/Scoras_DevOps_Agent-Verificado-blue?style=for-the-badge&logo=githubactions)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter)
+
+| Campo | Valor |
+|-------|-------|
+| 🤖 Avaliado por | Scoras Digital DevOps Agent |
+| 📅 Data da Avaliação | `30/05/2026` |
+| 📊 Score DevOps & Segurança | `59/100` |
+| 🎯 Nota | C — Regular |
+| 📄 Relatório Completo | [andersonamaral2_Claude-Code-to-Deep-Agents-Skills-Converter_2026-05-30.md](./andersonamaral2_Claude-Code-to-Deep-Agents-Skills-Converter_2026-05-30.md) |
+
+> *Este repositório foi auditado automaticamente pelo **Scoras Digital DevOps Agent**,*  
+> *verificando métricas DORA, CI/CD, segurança (CVEs, secrets, SAST) e boas práticas.*  
+> *Última avaliação: **30/05/2026***
+
+---
