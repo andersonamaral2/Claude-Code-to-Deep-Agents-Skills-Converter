@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Restrito — Cadastros</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family:'Segoe UI',system-ui,sans-serif;
+            background:#050510; color:#e0e0e0;
+            min-height:100vh; display:flex; align-items:center; justify-content:center;
+        }
+        .card {
+            background:#0d0d1a; border:1px solid #1a1a2e; border-radius:16px;
+            padding:40px 32px; width:100%; max-width:400px;
+            box-shadow:0 0 60px rgba(99,102,241,0.08);
+        }
+        h2 { font-size:20px; color:#f0f0f0; margin-bottom:6px; }
+        .subtitle { color:#aaa; font-size:14px; margin-bottom:24px; }
+        .form-group { margin-bottom:16px; }
+        label { display:block; font-size:13px; color:#ccc; margin-bottom:6px; font-weight:500; }
+        input {
+            width:100%; padding:12px 14px;
+            background:#111125; border:1px solid #2a2a40; border-radius:8px;
+            color:#e0e0e0; font-size:15px; outline:none;
+        }
+        input:focus { border-color:#6366f1; box-shadow:0 0 0 3px rgba(99,102,241,0.15); }
+        .btn {
+            width:100%; padding:13px; border:none; border-radius:8px;
+            background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff;
+            font-size:15px; font-weight:600; cursor:pointer; margin-top:8px;
+        }
+        .btn:hover { opacity:0.9; }
+        .btn:disabled { opacity:0.5; cursor:not-allowed; }
+        .error { color:#f87171; font-size:13px; margin-bottom:12px; display:none; }
+        .lock { text-align:center; font-size:32px; margin-bottom:16px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="lock">&#128274;</div>
+        <h2>Acesso Restrito</h2>
+        <p class="subtitle">Painel de cadastros — somente administradores.</p>
+        <div id="error" class="error"></div>
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+            <label for="password">Senha</label>
+            <input type="password" id="password" placeholder="Senha de acesso">
+        </div>
+        <button class="btn" id="btn" onclick="login()">Entrar</button>
+    </div>
+    <script>
+        const BASE = window.location.pathname.replace(/\/$/, '').replace('/leads', '');
+
+        async function login() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const err = document.getElementById('error');
+            err.style.display = 'none';
+            if (!email || !password) { err.textContent = 'Preencha todos os campos.'; err.style.display = 'block'; return; }
+
+            document.getElementById('btn').disabled = true;
+            try {
+                const res = await fetch(BASE + '/leads/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    window.location.href = data.redirect;
+                } else {
+                    err.textContent = data.error || 'Erro de autenticação.';
+                    err.style.display = 'block';
+                }
+            } catch (e) {
+                err.textContent = 'Erro de conexão.';
+                err.style.display = 'block';
+            }
+            document.getElementById('btn').disabled = false;
+        }
+
+        document.getElementById('password').addEventListener('keydown', e => {
+            if (e.key === 'Enter') login();
+        });
+    </script>
+</body>
+</html>

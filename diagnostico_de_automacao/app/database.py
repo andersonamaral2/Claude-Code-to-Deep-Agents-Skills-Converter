@@ -79,6 +79,18 @@ def register_lead(nome: str, sobrenome: str, email: str, celular: str, token: st
     con.close()
 
 
+def get_all_leads():
+    con = get_connection()
+    rows = con.execute(
+        "SELECT nome, sobrenome, email, celular, verificado, created_at FROM leads ORDER BY created_at DESC"
+    ).fetchall()
+    con.close()
+    return [
+        {"nome": r[0], "sobrenome": r[1], "email": r[2], "celular": r[3], "verificado": r[4], "created_at": str(r[5])}
+        for r in rows
+    ]
+
+
 def verify_lead(token: str) -> "str | None":
     """Verify a lead by token. Returns email if found, None otherwise."""
     con = get_connection()
