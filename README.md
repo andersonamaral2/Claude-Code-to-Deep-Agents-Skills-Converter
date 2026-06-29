@@ -506,20 +506,20 @@ MIT — use, adapt, and distribute as you wish. See [LICENSE](LICENSE).
 
 ## 🔔 Scoras Digital DevOps Agent — Verificação
 
-[![DevOps Score](https://img.shields.io/badge/DevOps%20Score-38%2F100%20(D)-orange?style=for-the-badge&logo=github)](./andersonamaral2_Claude-Code-to-Deep-Agents-Skills-Converter_2026-06-28.md)
+[![DevOps Score](https://img.shields.io/badge/DevOps%20Score-38%2F100%20(D)-orange?style=for-the-badge&logo=github)](./andersonamaral2_Claude-Code-to-Deep-Agents-Skills-Converter_2026-06-29.md)
 [![Scoras DevOps Agent](https://img.shields.io/badge/Scoras_DevOps_Agent-Verificado-blue?style=for-the-badge&logo=githubactions)](https://github.com/andersonamaral2/Claude-Code-to-Deep-Agents-Skills-Converter)
 
 | Campo | Valor |
 |-------|-------|
 | 🤖 Avaliado por | Scoras Digital DevOps Agent |
-| 📅 Data da Avaliação | `28/06/2026` |
+| 📅 Data da Avaliação | `29/06/2026` |
 | 📊 Score DevOps & Segurança | `38/100` |
 | 🎯 Nota | D — Abaixo do esperado |
-| 📄 Relatório Completo | [andersonamaral2_Claude-Code-to-Deep-Agents-Skills-Converter_2026-06-28.md](./andersonamaral2_Claude-Code-to-Deep-Agents-Skills-Converter_2026-06-28.md) |
+| 📄 Relatório Completo | [andersonamaral2_Claude-Code-to-Deep-Agents-Skills-Converter_2026-06-29.md](./andersonamaral2_Claude-Code-to-Deep-Agents-Skills-Converter_2026-06-29.md) |
 
 > *Este repositório foi auditado automaticamente pelo **Scoras Digital DevOps Agent**,*  
 > *verificando métricas DORA, CI/CD, segurança (CVEs, secrets, SAST) e boas práticas.*  
-> *Última avaliação: **28/06/2026***
+> *Última avaliação: **29/06/2026***
 
 ---
 
