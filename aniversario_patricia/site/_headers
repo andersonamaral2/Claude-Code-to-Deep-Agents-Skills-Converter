@@ -1,0 +1,13 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
+  X-Frame-Options: SAMEORIGIN
+
+# Lead magnet: cache curto de propósito, pra poder trocar o arquivo sem
+# esperar CDN expirar (o link já foi pro e-mail de quem se cadastrou).
+/downloads/*
+  Cache-Control: public, max-age=600
+
+/assets/*
+  Cache-Control: public, max-age=86400

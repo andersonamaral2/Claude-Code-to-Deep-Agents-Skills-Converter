@@ -1,0 +1,88 @@
+<!--
+  E-mail avulso do cupom de aniversário, para disparo à lista que JÁ recebeu o manual e a skill.
+  Sem PDF, sem .zip: só o presente 03.
+
+  Dois placeholders para preencher no envio:
+    {{NOME}}      primeiro nome do destinatário (fallback: "olá")
+    {{UNSUB_URL}} link de descadastro individual = HMAC-SHA256(email, RESEND_API_KEY) truncado
+                  em 32 hex, o mesmo esquema de functions/api/inscrever.js
+
+  Enviado por scripts/enviar_cupom_lista.py, que preenche os dois e chama a Resend.
+  Se um dia for por Broadcast do Resend, trocar por {{{FIRST_NAME|olá}}} e {{{RESEND_UNSUBSCRIBE_URL}}}.
+
+  Cupom ANIVERSARIOPATI, 50%, expira 31/07/2026 23h59 BRT. Depois disso este arquivo não deve
+  mais ser disparado: o código para de passar no checkout.
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hoje é meu aniversário. Seu presente está aqui.</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f4f5;">
+<!-- Preheader (aparece na caixa de entrada, invisível no corpo) -->
+<div style="display:none;font-size:1px;color:#f4f4f5;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">
+  50% de desconto no curso De Gargalos a Agentes, válido até 31/07 às 23h59. Cupom já aplicado no link.
+</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f5;">
+<tr><td align="center" style="padding:32px 16px;">
+
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:16px;overflow:hidden;">
+
+    <!-- Faixa superior -->
+    <tr><td style="background-color:#4400A5;padding:22px 40px;">
+      <span style="font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:2px;color:#33D9D5;text-transform:uppercase;">29 de julho &middot; anivers&aacute;rio da Patricia</span>
+    </td></tr>
+
+    <!-- Corpo -->
+    <tr><td style="padding:36px 40px 8px;">
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a1a;margin:0 0 18px;">Olá, <strong>{{NOME}}</strong>,</p>
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a1a;margin:0 0 18px;">hoje é meu aniversário, e como prometido, o presente é seu.</p>
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a1a;margin:0 0 18px;">Quem está nesta lista tem <strong>50% de desconto</strong> no curso <strong>De Gargalos a Agentes: Como Mapear, Priorizar e Automatizar Fluxos com IA</strong>. O manual que você recebeu é a porta de entrada do método; o curso é o método completo, com a Ferramenta de Diagnóstico que pontua as 7 variáveis, compara processos e calcula o ROI de cada automação.</p>
+
+      <!-- Bloco do valor -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:8px 0 24px;">
+        <tr><td style="background-color:#f7f5fc;border:1px solid #e3dcf5;border-radius:12px;padding:20px 24px;">
+          <p style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#555555;margin:0;">Valor do curso: <span style="text-decoration:line-through;">R$ 2.599</span></p>
+          <p style="font-family:Arial,Helvetica,sans-serif;font-size:22px;line-height:1.4;color:#4400A5;margin:4px 0 0;"><strong>Com o cupom de aniversário: R$ 1.299,50</strong></p>
+          <p style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#777777;margin:10px 0 0;">Em at&eacute; 12x no cart&atilde;o, ou Pix, boleto e parcelamento sem comprometer o limite.</p>
+          <p style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#555555;margin:12px 0 0;">Seu c&oacute;digo: <span style="font-family:'Courier New',Courier,monospace;font-size:15px;font-weight:bold;color:#4400A5;background-color:#ffffff;border:1px dashed #b9a6ec;border-radius:6px;padding:4px 10px;">ANIVERSARIOPATI</span></p>
+          <p style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#777777;margin:8px 0 0;">J&aacute; vem aplicado no bot&atilde;o abaixo. Se preferir, digite no campo de cupom do checkout.</p>
+        </td></tr>
+      </table>
+
+      <!-- Botão -->
+      <table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:0 auto 10px;">
+        <tr><td align="center" style="background-color:#4400A5;border-radius:100px;">
+          <a href="https://pay.hotmart.com/B105645116P?checkoutMode=6&amp;off=pr633rv3&amp;offDiscount=ANIVERSARIOPATI&amp;src=email_cupom_lista_2907" target="_blank" style="display:inline-block;padding:16px 42px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:100px;">Garantir minha vaga com 50%</a>
+        </td></tr>
+      </table>
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#777777;text-align:center;margin:0 0 26px;">Válido até <strong>31/07, 23h59</strong> (horário de Brasília). Depois disso, expira.</p>
+
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a1a;margin:0 0 18px;">Se você já aplicou as 5 decisões do manual em algum processo da sua empresa, sabe o que elas revelam. O curso é onde isso vira instrumento: 7 módulos para mapear, priorizar e automatizar com critério, e o argumento executivo pronto para levar à sua liderança.</p>
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#4400A5;font-style:italic;margin:0 0 18px;">Antes da IA, vem o pensamento certo.</p>
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a1a;margin:0 0 4px;"><strong>Patricia Costa</strong></p>
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.5;color:#777777;margin:0;">CPO da Scoras Digital &middot; Co-fundadora da Scoras Academy</p>
+    </td></tr>
+
+    <!-- Rodapé -->
+    <tr><td style="padding:22px 40px 30px;border-top:1px solid #eeeeee;">
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:1.6;color:#999999;margin:0;">
+        Você está recebendo este e-mail porque se cadastrou para receber o manual Automação com Critério.
+        Se não quiser mais receber conteúdos, <a href="{{UNSUB_URL}}" style="color:#4400A5;">descadastre-se aqui</a>.
+        <br /><br />
+        Este e-mail não recebe respostas. Para falar com o time, escreva para
+        <a href="mailto:suporte@scorasacademy.com.br" style="color:#4400A5;">suporte@scorasacademy.com.br</a>.
+        <br /><br />
+        Scoras Academy &middot; Scoras Tecnologia Ltda &middot; CNPJ 59.526.498/0001-73 &middot; Complexo Madeira, Alphaville, Barueri/SP
+      </p>
+    </td></tr>
+
+  </table>
+
+</td></tr>
+</table>
+</body>
+</html>

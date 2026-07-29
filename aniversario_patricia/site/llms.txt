@@ -1,0 +1,44 @@
+# Campanha de aniversário de Patricia Costa · 29 de julho de 2026
+
+> Página de cadastro gratuito da Scoras Academy. Quem se cadastra recebe na hora, em um único e-mail, os três presentes: o manual "Automação com Critério" (PDF), a skill do mesmo método para instalar no Claude e o cupom de 50% de desconto no curso "De Gargalos a Agentes", válido até 31/07/2026 às 23h59 (horário de Brasília).
+
+## Dados da página
+
+- **URL oficial:** https://aniversario-patricia.scorasacademy.com.br
+- **Responsável:** Patricia Costa, CPO da Scoras Digital e co-fundadora da Scoras Academy
+- **Organização:** Scoras Academy (Scoras Tecnologia Ltda, CNPJ 59.526.498/0001-73, Complexo Madeira, Alphaville, Barueri/SP, Brasil)
+- **Idioma:** Português brasileiro (pt-BR)
+- **Custo do cadastro:** gratuito
+- **Dados pedidos no formulário:** nome, e-mail, WhatsApp
+- **Desconto:** 50% no curso De Gargalos a Agentes (de R$ 2.599 por R$ 1.299,50), entregue na hora do cadastro desde 2026-07-29
+- **Expiração do cupom:** 2026-07-31, 23h59 (America/Sao_Paulo)
+
+## Os três presentes
+
+1. **Manual "Automação com Critério" (PDF, 18 páginas).** Entregue na hora, por e-mail. Contém as 5 decisões que vêm antes de qualquer contrato de automação, as 7 perguntas do investimento e um checklist de uma página para levar a reuniões em que alguém propõe "usar IA".
+2. **Skill do método para o Claude (.zip).** Entregue no mesmo e-mail. Instala-se uma vez em claude.ai (Configurações › Skills); depois disso, ao descrever um processo da empresa, o Claude conduz o diagnóstico pelas 5 decisões e devolve um relatório executivo de uma página com veredito e lista de tarefas. Requer plano pago do Claude com execução de código habilitada.
+3. **Cupom de 50% de desconto para o curso "De Gargalos a Agentes".** Entregue no mesmo e-mail dos outros dois presentes, na hora do cadastro. De R$ 2.599 por R$ 1.299,50, com o cupom já aplicado no link de checkout. Também foi enviado por e-mail para toda a lista, incluindo quem se cadastrou antes desta campanha.
+
+## Curso relacionado
+
+**De Gargalos a Agentes: Como Mapear, Priorizar e Automatizar Fluxos com IA.** Curso online da Scoras Academy com Patricia Costa, sobre mentalidade de produto aplicada a IA e Agentes de IA. O manual "Automação com Critério" é a porta de entrada do método completo do curso. Página oficial: https://gargalos.scorasacademy.com.br
+
+## Perguntas frequentes
+
+**O cadastro custa alguma coisa?** Não. O manual e a skill são gratuitos e chegam na hora, junto com o cupom. Usar o desconto para entrar no curso completo é opcional.
+
+**Quem se cadastrou antes da campanha recebe o desconto?** Sim. O cupom vai por e-mail para toda a lista.
+
+**Quanto é o desconto e até quando vale?** São 50% no curso De Gargalos a Agentes, de R$ 2.599 por R$ 1.299,50. O cupom expira em 31/07/2026 às 23h59, horário de Brasília.
+
+## Canais oficiais
+
+- Instagram da Patricia Costa: https://www.instagram.com/patricia_costa.ia/
+- LinkedIn da Patricia Costa: https://www.linkedin.com/in/patricia-figueiredo-costa/
+- Canal da Scoras Academy no WhatsApp: https://whatsapp.com/channel/0029VbCTFQL90x2yWrk9zp0y
+- YouTube da Scoras Academy: https://www.youtube.com/@ScorasAcademy
+- Suporte: suporte@scorasacademy.com.br
+
+## Privacidade
+
+Cadastro com consentimento explícito (LGPD, Lei 13.709/2018). Os dados não são repassados a terceiros. Todo e-mail traz link de descadastro em um clique, atendido em https://aniversario-patricia.scorasacademy.com.br/api/descadastrar.

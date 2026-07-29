@@ -1,0 +1,55 @@
+# Campanha de aniversário · Patricia Costa · Scoras Academy
+# https://aniversario-patricia.scorasacademy.com.br
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# LLM crawlers — autorizados a indexar e citar
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+Sitemap: https://aniversario-patricia.scorasacademy.com.br/sitemap.xml
+Sitemap: https://scorasacademy.com.br/sitemap.xml

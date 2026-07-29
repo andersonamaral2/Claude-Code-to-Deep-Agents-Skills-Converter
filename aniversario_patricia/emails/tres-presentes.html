@@ -1,0 +1,134 @@
+<!--
+  E-mail dos TRÊS presentes (manual + skill + cupom), extraído de presentesEmailHtml()
+  em functions/api/inscrever.js para disparo avulso. Mesmos placeholders do cupom-lista.html:
+  {{NOME}} e {{UNSUB_URL}}.
+
+  Alvo: quem entrou pela landing do gargalos e nunca recebeu o manual nem a skill.
+  Se o e-mail de produção mudar, regerar este arquivo em vez de editar à mão.
+-->
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Seus três presentes chegaram</title></head>
+<body style="margin:0;padding:0;background-color:#f4f4f5;">
+<div style="display:none;font-size:1px;color:#f4f4f5;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">
+  Manual, skill e 50% de desconto no curso De Gargalos a Agentes, válido até 31/07 às 23h59. Cupom já aplicado no link.
+</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f5;">
+<tr><td align="center" style="padding:32px 16px;">
+
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:16px;overflow:hidden;">
+
+    <tr><td style="background-color:#4400A5;padding:22px 40px;">
+      <span style="font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:2px;color:#33D9D5;text-transform:uppercase;">29 de julho &middot; anivers&aacute;rio da Patricia</span>
+    </td></tr>
+
+    <tr><td style="padding:36px 40px 8px;">
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a1a;margin:0 0 18px;">Olá, <strong>{{NOME}}</strong>,</p>
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a1a;margin:0 0 18px;">hoje é meu aniversário, e como prometido, o presente é seu. Na verdade são três, e os três chegam agora, sem espera.</p>
+    </td></tr>
+
+    <tr><td style="padding:8px 40px 4px;font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:#4400A5;font-weight:bold;">Presente 01 &middot; o manual</td></tr>
+    <tr><td style="padding:8px 40px 20px;">
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a1a;margin:0;">O primeiro é o seu exemplar do <strong>Automação com Critério</strong>: o manual mínimo antes de colocar IA em qualquer processo, com as 5 decisões na ordem certa, as 7 perguntas que eu aplico em diagnósticos reais, e o checklist de uma página para a próxima reunião em que alguém disser "a gente precisa de IA".</p>
+    </td></tr>
+
+    <tr><td align="center" style="padding:2px 40px 24px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:0 auto;">
+        <tr><td align="center" style="background-color:#ffffff;border:1px solid #4400A5;border-radius:100px;">
+          <a href="https://aniversario-patricia.scorasacademy.com.br/downloads/automacao-com-criterio.pdf?utm_source=email&utm_medium=entrega&utm_campaign=aniversario_29_07&utm_content=manual_pdf" target="_blank" style="display:inline-block;padding:15px 34px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#4400A5;text-decoration:none;border-radius:100px;">Baixar o manual (PDF)</a>
+        </td></tr>
+      </table>
+    </td></tr>
+
+    <tr><td style="padding:8px 40px 4px;font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:#4400A5;font-weight:bold;">Presente 02 &middot; a skill no seu Claude</td></tr>
+    <tr><td style="padding:8px 40px 18px;">
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a1a;margin:0 0 16px;">O segundo é o método instalado no seu Claude. Eu transformei o manual em uma <strong>skill</strong>: você instala uma vez e, sempre que descrever um processo da sua empresa, o Claude conduz o diagnóstico completo pelas 5 decisões e entrega um relatório executivo de uma página, com veredito e lista de tarefas.</p>
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        <tr><td style="background-color:#f7f5fc;border:1px solid #e3dcf5;border-radius:12px;padding:18px 22px;">
+          <p style="font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:#4400A5;font-weight:bold;margin:0;">Para instalar</p>
+          <ol style="margin:12px 0 0;padding:0 0 0 18px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.75;color:#333333;">
+            <li>Baixe o arquivo da skill no botão abaixo.</li>
+            <li>No claude.ai, abra Configurações e vá até a seção de Skills.</li>
+            <li>Envie o arquivo baixado e confirme que a skill está ativada.</li>
+            <li>Abra uma conversa nova e diga: "faça o diagnóstico de automação do meu processo de [exemplo]".</li>
+          </ol>
+          <p style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#777777;margin:12px 0 0;">A skill funciona nos planos pagos do Claude, com execução de código habilitada.</p>
+        </td></tr>
+      </table>
+    </td></tr>
+
+    <tr><td align="center" style="padding:2px 40px 24px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:0 auto;">
+        <tr><td align="center" style="background-color:#ffffff;border:1px solid #4400A5;border-radius:100px;">
+          <a href="https://aniversario-patricia.scorasacademy.com.br/downloads/automacao-com-criterio.zip?utm_source=email&utm_medium=entrega&utm_campaign=aniversario_29_07&utm_content=skill_zip" target="_blank" style="display:inline-block;padding:15px 34px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#4400A5;text-decoration:none;border-radius:100px;">Baixar a skill (.zip)</a>
+        </td></tr>
+      </table>
+    </td></tr>
+
+      <tr><td style="padding:8px 40px 4px;font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:#4400A5;font-weight:bold;">Presente 03 &middot; seu cupom de aniversário</td></tr>
+      <tr><td style="padding:8px 40px 0;">
+        <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a1a;margin:0 0 18px;">Quem está nesta lista tem <strong>50% de desconto</strong> no curso <strong>De Gargalos a Agentes: Como Mapear, Priorizar e Automatizar Fluxos com IA</strong>. O manual que você acabou de baixar é a porta de entrada do método; o curso é o método completo, com a Ferramenta de Diagnóstico que pontua as 7 variáveis, compara processos e calcula o ROI de cada automação.</p>
+
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 22px;">
+          <tr><td style="background-color:#f7f5fc;border:1px solid #e3dcf5;border-radius:12px;padding:20px 24px;">
+            <p style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#555555;margin:0;">Valor do curso: <span style="text-decoration:line-through;">R$ 2.599</span></p>
+            <p style="font-family:Arial,Helvetica,sans-serif;font-size:22px;line-height:1.4;color:#4400A5;margin:4px 0 0;"><strong>Com o cupom de aniversário: R$ 1.299,50</strong></p>
+            <p style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#777777;margin:10px 0 0;">Em at&eacute; 12x no cart&atilde;o, ou Pix, boleto e parcelamento sem comprometer o limite.</p>
+            <p style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#555555;margin:12px 0 0;">Seu c&oacute;digo: <span style="font-family:'Courier New',Courier,monospace;font-size:15px;font-weight:bold;color:#4400A5;background-color:#ffffff;border:1px dashed #b9a6ec;border-radius:6px;padding:4px 10px;">ANIVERSARIOPATI</span></p>
+            <p style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#777777;margin:8px 0 0;">J&aacute; vem aplicado no bot&atilde;o abaixo. Se preferir, digite no campo de cupom do checkout.</p>
+          </td></tr>
+        </table>
+      </td></tr>
+
+    <tr><td align="center" style="padding:2px 40px 24px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:0 auto;">
+        <tr><td align="center" style="background-color:#4400A5;border:1px solid #4400A5;border-radius:100px;">
+          <a href="https://pay.hotmart.com/B105645116P?checkoutMode=6&off=pr633rv3&offDiscount=ANIVERSARIOPATI&src=email_cupom_aniversario" target="_blank" style="display:inline-block;padding:15px 34px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:100px;">Garantir minha vaga com 50%</a>
+        </td></tr>
+      </table>
+    </td></tr>
+      <tr><td style="padding:0 40px 26px;">
+        <p style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#777777;text-align:center;margin:0;">V&aacute;lido at&eacute; <strong>31/07, 23h59</strong> (hor&aacute;rio de Bras&iacute;lia). Depois disso, expira.</p>
+      </td></tr>
+
+    <tr><td style="padding:4px 40px 8px;">
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a1a;margin:0 0 18px;">Se você já aplicou as 5 decisões do manual em algum processo da sua empresa, sabe o que elas revelam. O curso é onde isso vira instrumento: 7 módulos para mapear, priorizar e automatizar com critério, e o argumento executivo pronto para levar à sua liderança.</p>
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a1a;margin:0 0 6px;font-style:italic;color:#4400A5;">Antes da IA, vem o pensamento certo.</p>
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a1a;margin:14px 0 4px;"><strong>Patricia Costa</strong></p>
+      <p style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.5;color:#777777;margin:0 0 22px;">CPO da Scoras Digital &middot; Co-fundadora da Scoras Academy</p>
+    </td></tr>
+
+    <tr><td style="padding:0 40px 6px;font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:#4400A5;font-weight:bold;">Siga a gente</td></tr>
+    <tr><td style="padding:10px 40px 26px;"><a href="https://www.instagram.com/patricia_costa.ia/" target="_blank"
+             style="display:inline-block;background-color:#f7f5fc;border:1px solid #e3dcf5;color:#4400A5;
+                    text-decoration:none;padding:9px 14px;border-radius:8px;font-family:Arial,Helvetica,sans-serif;
+                    font-size:12.5px;margin:0 8px 8px 0;">Instagram da Patricia</a><a href="https://www.linkedin.com/in/patricia-figueiredo-costa/" target="_blank"
+             style="display:inline-block;background-color:#f7f5fc;border:1px solid #e3dcf5;color:#4400A5;
+                    text-decoration:none;padding:9px 14px;border-radius:8px;font-family:Arial,Helvetica,sans-serif;
+                    font-size:12.5px;margin:0 8px 8px 0;">LinkedIn da Patricia</a><a href="https://whatsapp.com/channel/0029VbCTFQL90x2yWrk9zp0y" target="_blank"
+             style="display:inline-block;background-color:#f7f5fc;border:1px solid #e3dcf5;color:#4400A5;
+                    text-decoration:none;padding:9px 14px;border-radius:8px;font-family:Arial,Helvetica,sans-serif;
+                    font-size:12.5px;margin:0 8px 8px 0;">Canal no WhatsApp</a><a href="https://www.youtube.com/@ScorasAcademy" target="_blank"
+             style="display:inline-block;background-color:#f7f5fc;border:1px solid #e3dcf5;color:#4400A5;
+                    text-decoration:none;padding:9px 14px;border-radius:8px;font-family:Arial,Helvetica,sans-serif;
+                    font-size:12.5px;margin:0 8px 8px 0;">YouTube da Scoras</a></td></tr>
+
+      <tr><td style="padding:22px 40px 30px;border-top:1px solid #eeeeee;">
+        <p style="font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:1.6;color:#999999;margin:0;">
+          Você recebeu este e-mail porque entrou para a lista da campanha de aniversário em <strong>aniversario-patricia.scorasacademy.com.br</strong>. O curso completo está em <a href="https://gargalos.scorasacademy.com.br" style="color:#4400A5;">gargalos.scorasacademy.com.br</a>.
+          Se não quiser mais receber conteúdos, <a href="{{UNSUB_URL}}" style="color:#4400A5;">descadastre-se aqui</a>.
+          <br /><br />
+          Este e-mail não recebe respostas. Para falar com o time, escreva para
+          <a href="mailto:suporte@scorasacademy.com.br" style="color:#4400A5;">suporte@scorasacademy.com.br</a>.
+          <br /><br />
+          Scoras Academy &middot; Scoras Tecnologia Ltda &middot; CNPJ 59.526.498/0001-73 &middot; Complexo Madeira, Alphaville, Barueri/SP
+        </p>
+      </td></tr>
+  </table>
+
+</td></tr>
+</table>
+</body></html>

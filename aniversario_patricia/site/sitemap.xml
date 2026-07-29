@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://aniversario-patricia.scorasacademy.com.br/</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://aniversario-patricia.scorasacademy.com.br/assets/og-image.png</image:loc>
+      <image:title>Dia 29 é meu aniversário. O presente é seu. Patricia Costa, Scoras Academy</image:title>
+      <image:caption>Campanha de aniversário de 29/07/2026: manual Automação com Critério, skill do método no Claude e desconto no curso De Gargalos a Agentes.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://aniversario-patricia.scorasacademy.com.br/assets/patricia.png</image:loc>
+      <image:title>Patricia Costa, CPO da Scoras Digital e co-fundadora da Scoras Academy</image:title>
+    </image:image>
+  </url>
+</urlset>
