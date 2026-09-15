@@ -1,0 +1,5 @@
+# Optional Codex UI sidecar.
+# Skipped by default during conversion; use --generate-sidecar to include.
+interface:
+  display_name: Python FastAPI Todo App
+  short_description: Creates a simple Todo REST API with FastAPI, SQLite, and basic CRUD operations.
