@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - name: Lint Markdown files
-        uses: DavidAnson/markdownlint-cli2-action@05f32210e84442804257b2a6f20b273450ec8265 # v19
+        uses: DavidAnson/markdownlint-cli2-action@21c1be1b93ad9ed58fa840aacc3f279cde2a72ff # v24.2.0
         with:
           globs: |
             README.md
