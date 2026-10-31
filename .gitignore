@@ -133,3 +133,6 @@ yarn-error.log*
 secrets/
 keys/
 credentials/ 
+# Backups de credenciais nunca vão para o GitHub
+.env.*
+!.env.example
